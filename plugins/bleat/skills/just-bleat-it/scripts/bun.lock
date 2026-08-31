@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@bleat-claude/just-bleat-it-tools",
+      "name": "@bleat/just-bleat-it-tools",
       "dependencies": {
         "commander": "15.0.0",
       },

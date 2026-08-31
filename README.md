@@ -13,19 +13,19 @@ This is not a verbatim copy. Skill bodies have been edited so every Cursor-speci
 This repo ships as a Claude Code marketplace containing one plugin (`bleat`).
 
 ```shell
-/plugin marketplace add michael-denyer/pstack-claude
-/plugin install bleat@bleat-claude
+/plugin marketplace add quotegoat-ux/bleat
+/plugin install bleat@bleat
 ```
 
-From 0.9.5 the plugin auto-fires, the same way superpowers does: a `SessionStart` hook (on `startup`, `/clear`, and post-`compact`) injects a ~0.3k-token mandate that routes any non-trivial engineering task into `just-bleat-it` before the first response. The full skill still loads only on invoke. Dispatched subagents are told to ignore the mandate, and explicit user instructions take precedence. To opt out, delete `hooks/hooks.json` from the installed copy (`~/.claude/plugins/cache/bleat-claude/bleat/<version>/hooks/hooks.json`); a plugin update restores it.
+From 0.9.5 the plugin auto-fires, the same way superpowers does: a `SessionStart` hook (on `startup`, `/clear`, and post-`compact`) injects a ~0.3k-token mandate that routes any non-trivial engineering task into `just-bleat-it` before the first response. The full skill still loads only on invoke. Dispatched subagents are told to ignore the mandate, and explicit user instructions take precedence. To opt out, delete `hooks/hooks.json` from the installed copy (`~/.claude/plugins/cache/bleat/bleat/<version>/hooks/hooks.json`); a plugin update restores it.
 
 ### Codex
 
 The same plugin carries a `.codex-plugin/plugin.json` manifest and a root `.agents/plugins/marketplace.json`. The verified install is to link the plugin's skills into your cross-runtime skills directory:
 
 ```shell
-git clone https://github.com/michael-denyer/pstack-claude
-cd bleat-claude
+git clone https://github.com/quotegoat-ux/bleat
+cd bleat
 for s in plugins/bleat/skills/*/; do ln -s "$PWD/$s" ~/.agents/skills/"$(basename "$s")"; done
 ```
 
@@ -50,8 +50,8 @@ Each command invokes its skill, so `/tdd` runs the `tdd` skill. Installing the f
 [Prime Agent](https://github.com/PrimeIntellect-ai/prime-agent) discovers skills from `~/.agents/skills/` and from `.agents/skills/` in the working tree up to the git root ([docs](https://github.com/PrimeIntellect-ai/prime-agent/blob/main/packages/coding-agent/docs/skills.md)). That is the same `~/.agents/skills/` directory the Codex install symlinks into, so the [Codex skill-link step](#codex) doubles as the Prime install — if you have already run it, Prime picks the skills up with no extra work:
 
 ```shell
-git clone https://github.com/michael-denyer/pstack-claude
-cd bleat-claude
+git clone https://github.com/quotegoat-ux/bleat
+cd bleat
 for s in plugins/bleat/skills/*/; do ln -s "$PWD/$s" ~/.agents/skills/"$(basename "$s")"; done
 ```
 

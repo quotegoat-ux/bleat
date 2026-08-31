@@ -1,5 +1,5 @@
 {
-  "name": "@bleat-claude/just-bleat-it-tools",
+  "name": "@bleat/just-bleat-it-tools",
   "private": true,
   "type": "module",
   "scripts": {
