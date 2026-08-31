@@ -1,19 +1,19 @@
 {
-  "name": "bleat-claude",
+  "name": "bleat",
   "owner": {
-    "name": "Michael Denyer"
+    "name": "Quote Goat"
   },
-  "description": "Claude Code port of poteto's bleat. Rigorous agent workflows with Cursor primitives translated to Claude Code equivalents.",
+  "description": "Quote Goat's build of pstack for Claude Code. Rigorous agent workflows; start with /just-bleat-it.",
   "plugins": [
     {
       "name": "bleat",
       "source": "./plugins/bleat",
       "description": "if you want to go fast, go deep first. bleat helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.",
-      "version": "0.9.15",
+      "version": "1.0.0",
       "author": {
         "name": "Lauren Tan (original)"
       },
-      "homepage": "https://github.com/michael-denyer/pstack-claude",
+      "homepage": "https://github.com/quotegoat-ux/bleat",
       "license": "MIT",
       "keywords": [
         "bleat",

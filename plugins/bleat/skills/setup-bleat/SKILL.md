@@ -77,6 +77,6 @@ Tell the user where the override was written and how it loads (via the `@` inclu
 
 Stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`).
 
-- Available Claude models: Opus 5 (`claude-opus-5`), Opus 4.8 (`claude-opus-4-8`), Opus 4.6 (`claude-opus-4-6`), Fable 5 (`claude-fable-5`), Sonnet 5 (`claude-sonnet-5`), Sonnet 4.6 (`claude-sonnet-4-6`), Haiku 4.5 (`claude-haiku-4-5`)
+- Available Claude models: Opus 5 (`claude-opus-5`), Opus 4.8 (`claude-opus-4-8`), Opus 4.6 (`claude-opus-4-6`), Fable 5 (`claude-fable-5`), Sonnet 5 (`claude-sonnet-5`), Sonnet 4.6 (`claude-sonnet-4-6`)
 - Default panel: `claude-opus-5`, `claude-fable-5`, `claude-sonnet-5`
 - Single-role default: `claude-opus-5`
