@@ -4,9 +4,11 @@
     "bleat": {
       "upstreamPath": "pstack",
       "localPath": "plugins/bleat",
-      "sha": "4612556",
+      "sha": "fd878692d",
       "exclude": [
-        "automations/"
+        "automations/",
+        ".cursor-plugin/",
+        "skills/make-bot-ui/"
       ]
     },
     "cursor-team-kit": {

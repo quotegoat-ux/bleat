@@ -2,6 +2,10 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.1.0 — sync to pstack 0.14.5
+
+First live run of the renamed pipeline, against `cursor/plugins` `fd87869`. 20 files land: the `docs/guide` walkthrough (path substitution routed `docs/guide/02-poteto-mode.md` to `02-just-bleat-it.md` mechanically), `LICENSE`, and `.gitignore`. The `make-bot-ui` skill (Grok Bot webhooks) joins benny and `.cursor-plugin` in the exclude list. `check-plan.mjs` and the enriched multi-phase playbook were pre-ported from the retired local tree with one deslop it never did: `/goal` becomes the standing-orders idiom. The benny automation pack and Cursor's `.cursor-plugin` manifest are excluded as Cursor-runtime-only. `sync.mjs` gains component excludes and a dirty-tree guard. 80 port-edited files where upstream also moved stay on the manual-merge backlog; the sync report lists them.
+
 ## 1.0.0 — bleat: the Quote Goat rebrand
 
 Quote Goat adopts the port as its team tool under the name **bleat**. The marketplace, plugin, and skill namespace are `bleat`; the entry skill `poteto-mode` is now `just-bleat-it`, and `/bleat-off` leaves the mode. The rename is carried by rows in `tools/substitutions.json` — guard rows keep upstream URLs, the upstream component path, and bare `poteto` author attribution intact — so upstream syncs reapply it mechanically to content and paths alike. Ports two Quote Goat additions: a `triage` playbook and a per-session `UserPromptSubmit` nudge (`hooks/prompt-nudge`) that re-asserts the mode after `/just-bleat-it` is invoked. `models.json` drops Haiku 4.5 from the available list per team policy, and the Codex single-role example is now `gpt-5.5`.
