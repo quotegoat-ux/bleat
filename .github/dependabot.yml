@@ -15,7 +15,7 @@ updates:
       prefix: ci
 
   - package-ecosystem: npm
-    directory: /plugins/pstack/skills/poteto-mode/scripts
+    directory: /plugins/bleat/skills/just-bleat-it/scripts
     schedule:
       interval: weekly
     cooldown:

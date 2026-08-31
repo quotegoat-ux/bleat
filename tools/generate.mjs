@@ -8,13 +8,13 @@
 //   VERSION  -> the "version" field in the three plugin manifests
 //   CHANGES.md must carry a heading for the current VERSION (release completeness)
 //   each public skill's frontmatter (name + menu-description)
-//     -> its Codex prompt stub in plugins/pstack/.codex-plugin/prompts/
+//     -> its Codex prompt stub in plugins/bleat/.codex-plugin/prompts/
 //     -> its row in README.md's "Slash commands" table
-//   plugins/pstack/models.json (the model policy: role defaults, diverse panel,
+//   plugins/bleat/models.json (the model policy: role defaults, diverse panel,
 //   available slugs, Codex equivalents)
 //     -> each model-consuming skill's "## Models" section
-//     -> setup-pstack's override-sheet block and interrogate's reviewer table
-//     -> the "## Model names" section of poteto-mode/references/codex-tools.md
+//     -> setup-bleat's override-sheet block and interrogate's reviewer table
+//     -> the "## Model names" section of just-bleat-it/references/codex-tools.md
 //   No other claude-* slug may appear in skill prose; the scan below fails on strays.
 //
 // Also validated: .agents/plugins/marketplace.json points at a real plugin
@@ -29,8 +29,8 @@ const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const VERSIONED_MANIFESTS = [
   ".claude-plugin/marketplace.json",
-  "plugins/pstack/.claude-plugin/plugin.json",
-  "plugins/pstack/.codex-plugin/plugin.json",
+  "plugins/bleat/.claude-plugin/plugin.json",
+  "plugins/bleat/.codex-plugin/plugin.json",
 ];
 
 // Replace the manifest's single "version" value, preserving all formatting.
@@ -126,8 +126,8 @@ export function replaceSection(text, title, body, file) {
 export function modelsSection(roles) {
   const bullets = roles.map((r) => `- ${r.role}: ${codeList(r.models)}`).join("\n");
   return (
-    "Role defaults, stamped from `plugins/pstack/models.json` (edit there, rerun `tools/generate.mjs`). " +
-    "A matching role line in `~/.claude/pstack-models.md` overrides each at runtime; see `/setup-pstack`.\n\n" +
+    "Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). " +
+    "A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.\n\n" +
     bullets
   );
 }
@@ -135,7 +135,7 @@ export function modelsSection(roles) {
 export function setupModelsSection(models) {
   const avail = models.available.map((m) => `${m.label} (${code(m.slug)})`).join(", ");
   return (
-    "Stamped from `plugins/pstack/models.json` (edit there, rerun `tools/generate.mjs`).\n\n" +
+    "Stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`).\n\n" +
     `- Available Claude models: ${avail}\n` +
     `- Default panel: ${codeList(models.panel)}\n` +
     `- Single-role default: ${code(models.singleRoleDefault)}`
@@ -147,8 +147,8 @@ export function setupModelsSection(models) {
 export function overrideSheetBlock(models) {
   const rows = models.roles.map((r) => `${r.role}: ${r.models.join(", ")}`).join("\n");
   return (
-    "# pstack model configuration\n\n" +
-    "Per-role model overrides for pstack skills. Each pstack SKILL.md names its defaults in a Models section; " +
+    "# bleat model configuration\n\n" +
+    "Per-role model overrides for bleat skills. Each bleat SKILL.md names its defaults in a Models section; " +
     "the values here override those defaults. Delete a line to fall back to the skill default. " +
     "A value of `inherit-parent` or `auto` runs that role on the parent session's model (the `Agent` call omits `model`); " +
     "an alias entry in a panel list still counts toward that panel's fan-out.\n\n" +
@@ -190,7 +190,7 @@ export function codexModelNamesSection(models) {
     "signal comes from model diversity, so use the distinct Codex models available to you. A good default quad " +
     `on ChatGPT is ${codeList(models.codex.panelQuad)}. If only one model family is reachable, vary reasoning ` +
     "effort and note in the verdict that diversity was reduced.\n\n" +
-    "`/setup-pstack` writes the configured model list. On Codex, set it to your Codex model slugs."
+    "`/setup-bleat` writes the configured model list. On Codex, set it to your Codex model slugs."
   );
 }
 
@@ -241,10 +241,10 @@ export function strayModelSlugs(path, text) {
 // the public skills on every run: adding or retiring a skill without updating
 // this list fails here by name.
 const README_COMMAND_ORDER = [
-  "poteto-mode", "how", "why", "architect", "arena", "interrogate",
+  "just-bleat-it", "how", "why", "architect", "arena", "interrogate",
   "automate-me", "reflect", "tdd", "typescript-best-practices", "teach",
   "swarm", "technical-writing", "bro", "figure-it-out", "show-me-your-work",
-  "blast-radius", "recall", "setup-pstack", "unslop", "no-comments",
+  "blast-radius", "recall", "setup-bleat", "unslop", "no-comments",
   "create-verification-skill", "maintain-verification-skill", "deslop",
   "babysit", "thermo-nuclear-code-quality-review", "make-pr-easy-to-review",
   "fix-ci", "fix-merge-conflicts", "get-pr-comments", "what-did-i-get-done",
@@ -318,8 +318,8 @@ function main() {
     }
   }
 
-  const models = JSON.parse(readFileSync(join(repo, "plugins/pstack/models.json"), "utf8"));
-  const skillsDir = join(repo, "plugins/pstack/skills");
+  const models = JSON.parse(readFileSync(join(repo, "plugins/bleat/models.json"), "utf8"));
+  const skillsDir = join(repo, "plugins/bleat/skills");
 
   const bySkill = new Map();
   for (const r of models.roles) {
@@ -344,17 +344,17 @@ function main() {
     if (stampFile(path, text, `skills/${skill}/SKILL.md (models)`)) modelStamps++;
   }
   {
-    const path = join(skillsDir, "setup-pstack/SKILL.md");
+    const path = join(skillsDir, "setup-bleat/SKILL.md");
     let text = readFileSync(path, "utf8");
     text = replaceSection(text, "Models", setupModelsSection(models), path);
     text = stampOverrideSheet(text, models, path);
-    if (stampFile(path, text, "skills/setup-pstack/SKILL.md (models)")) modelStamps++;
+    if (stampFile(path, text, "skills/setup-bleat/SKILL.md (models)")) modelStamps++;
   }
   {
-    const path = join(skillsDir, "poteto-mode/references/codex-tools.md");
+    const path = join(skillsDir, "just-bleat-it/references/codex-tools.md");
     const text = readFileSync(path, "utf8");
     const next = replaceSection(text, "Model names", codexModelNamesSection(models), path);
-    if (stampFile(path, next, "poteto-mode/references/codex-tools.md (models)")) modelStamps++;
+    if (stampFile(path, next, "just-bleat-it/references/codex-tools.md (models)")) modelStamps++;
   }
   if (modelStamps === 0) console.log("ok: model-policy sections current");
 
@@ -380,7 +380,7 @@ function main() {
 
   const skills = publicSkills(skillsDir);
 
-  const promptsDir = join(repo, "plugins/pstack/.codex-plugin/prompts");
+  const promptsDir = join(repo, "plugins/bleat/.codex-plugin/prompts");
   let promptsChanged = 0;
   for (const skill of skills) {
     const path = join(promptsDir, `${skill.name}.md`);
@@ -409,7 +409,7 @@ function main() {
   }
 
   const codexName = JSON.parse(
-    readFileSync(join(repo, "plugins/pstack/.codex-plugin/plugin.json"), "utf8"),
+    readFileSync(join(repo, "plugins/bleat/.codex-plugin/plugin.json"), "utf8"),
   ).name;
   validateCodexMarketplace(readFileSync(join(repo, ".agents/plugins/marketplace.json"), "utf8"), {
     expectedName: codexName,
@@ -417,7 +417,7 @@ function main() {
   });
   console.log("ok: .agents/plugins/marketplace.json names the plugin and points at a real path");
 
-  const pluginRoot = join(repo, "plugins/pstack");
+  const pluginRoot = join(repo, "plugins/bleat");
   validateHooks(readFileSync(join(pluginRoot, "hooks/hooks.json"), "utf8"), {
     statOf: (rel) => (existsSync(join(pluginRoot, rel)) ? statSync(join(pluginRoot, rel)) : null),
   });

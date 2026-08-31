@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# UserPromptSubmit hook: once a session invokes /just-bleat-it, every later
+# prompt re-asserts the mode so long transcripts don't drift out of it.
+# /bleat-off leaves the mode. State is one empty flag file per session id.
+set -euo pipefail
+input=$(cat)
+session=$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null) || exit 0
+prompt=$(printf '%s' "$input" | jq -r '.prompt // empty' 2>/dev/null) || exit 0
+[[ -n $session ]] || exit 0
+state="${XDG_STATE_HOME:-$HOME/.local/state}/just-bleat-it"
+flag="$state/$session"
+case "$prompt" in
+  /bleat-off*) rm -f "$flag"; exit 0 ;;
+  */just-bleat-it*) mkdir -p "$state"; : > "$flag"; exit 0 ;;
+esac
+[[ -e $flag ]] || exit 0
+skill=$(cd -P "$(dirname "$0")/../skills/just-bleat-it" && pwd -P)/SKILL.md
+echo "Just-bleat-it mode is on for this session. Follow $skill for this prompt: todo list first, playbook matched, principles cited. Re-read it only if it is no longer in context. /bleat-off leaves the mode."
+roster="$HOME/.claude/bleat-models.md"
+[[ -f $roster ]] && { echo; echo "bleat model roster:"; cat "$roster"; }
+exit 0

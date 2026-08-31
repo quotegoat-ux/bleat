@@ -11,9 +11,9 @@ import { join } from "node:path";
 const script = join(import.meta.dir, "skill-collision-repro.sh");
 
 function skill(dir, name, front) {
-  mkdirSync(join(dir, "plugins/pstack/skills", name), { recursive: true });
+  mkdirSync(join(dir, "plugins/bleat/skills", name), { recursive: true });
   writeFileSync(
-    join(dir, "plugins/pstack/skills", name, "SKILL.md"),
+    join(dir, "plugins/bleat/skills", name, "SKILL.md"),
     `---\nname: ${name}\ndescription: fixture\n${front}---\n\nbody\n`,
   );
 }
@@ -42,9 +42,9 @@ describe("skill-collision-repro.sh static invariants", () => {
   });
 
   test("a commands/ directory fails", () => {
-    const { code, out } = run(fixture((d) => mkdirSync(join(d, "plugins/pstack/commands"), { recursive: true })));
+    const { code, out } = run(fixture((d) => mkdirSync(join(d, "plugins/bleat/commands"), { recursive: true })));
     expect(code).toBe(1);
-    expect(out).toContain("FAIL: no plugins/pstack/commands/ directory");
+    expect(out).toContain("FAIL: no plugins/bleat/commands/ directory");
   });
 
   test("disable-model-invocation on a skill fails and names the file", () => {
@@ -72,7 +72,7 @@ describe("skill-collision-repro.sh static invariants", () => {
   test("the body of a skill may mention the flag in prose", () => {
     const dir = fixture();
     writeFileSync(
-      join(dir, "plugins/pstack/skills/good/SKILL.md"),
+      join(dir, "plugins/bleat/skills/good/SKILL.md"),
       "---\nname: good\ndescription: fixture\n---\n\nNever set disable-model-invocation: true on a skill.\n",
     );
     expect(run(dir).code).toBe(0);

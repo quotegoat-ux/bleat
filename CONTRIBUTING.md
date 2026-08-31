@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping out. This repo is a **port**, not an original work: the `skills/` tree tracks [upstream pstack](https://github.com/cursor/plugins/tree/main/pstack) and gets synced forward periodically. That one fact shapes most of what follows.
+Thanks for helping out. This repo is a **port**, not an original work: the `skills/` tree tracks [upstream bleat](https://github.com/cursor/plugins/tree/main/pstack) and gets synced forward periodically. That one fact shapes most of what follows.
 
 ## The sync boundary
 
@@ -18,7 +18,7 @@ Every substitution is recorded per-skill in [CHANGES.md](CHANGES.md). If you add
 ### Running a sync
 
 ```shell
-bun tools/sync.mjs pstack <new-upstream-sha>
+bun tools/sync.mjs bleat <new-upstream-sha>
 ```
 
 `tools/upstream.json` pins the current upstream SHA per component; `tools/substitutions.json` holds the mechanical Cursor-to-Claude rewrites and a denylist of Cursor-isms that need a rewritten sentence rather than a token swap. The tool fetches both upstream revisions, applies the substitutions, writes files whose only local differences came from upstream (new files included), and reports files carrying port-specific edits for manual merge. Any denylist token in a written file fails the run with the file, line, and hint — add a substitution rule or rewrite the sentence, then rerun. The pin advances only on success. Write the CHANGES.md entry from the printed report, then run the generator and the invariant script as usual.
@@ -32,14 +32,14 @@ bun tools/generate.mjs
 bash tests/skill-collision-repro.sh
 ```
 
-The generator stamps the root `VERSION` into the three plugin manifests, emits one Codex prompt stub per public skill from its `menu-description` frontmatter (removing orphans), rewrites the README slash-command table, stamps the model defaults from `plugins/pstack/models.json` into each skill's Models section (plus setup-pstack's override sheet, interrogate's reviewer table, and codex-tools' Model names section), asserts `CHANGES.md` has a heading for that version, and validates the Codex marketplace pointer. CI reruns it and fails on any resulting diff, so commit whatever it changes. Adding a skill means giving it a `menu-description` and adding its name to `README_COMMAND_ORDER` in `tools/generate.mjs`; the generator fails by name if either is missing. Changing a model default means editing `models.json`, never a skill body: a `claude-*` slug in skill prose outside a stamped region fails the generator with the file and line.
+The generator stamps the root `VERSION` into the three plugin manifests, emits one Codex prompt stub per public skill from its `menu-description` frontmatter (removing orphans), rewrites the README slash-command table, stamps the model defaults from `plugins/bleat/models.json` into each skill's Models section (plus setup-bleat's override sheet, interrogate's reviewer table, and codex-tools' Model names section), asserts `CHANGES.md` has a heading for that version, and validates the Codex marketplace pointer. CI reruns it and fails on any resulting diff, so commit whatever it changes. Adding a skill means giving it a `menu-description` and adding its name to `README_COMMAND_ORDER` in `tools/generate.mjs`; the generator fails by name if either is missing. Changing a model default means editing `models.json`, never a skill body: a `claude-*` slug in skill prose outside a stamped region fails the generator with the file and line.
 
 The invariant script checks plugin layout and frontmatter flags. Each static check is a named function; `bun test tests/` runs `tests/invariants.test.mjs`, which points the script at fixture trees (via `PSTACK_REPO`) and asserts every check still fails when it should, alongside the sync-tool fixtures. The last check is behavioral: it needs the `claude` CLI and API access and makes one haiku call. CI runs everything except that leg via `SKIP_BEHAVIORAL=1`, so run it unflagged at least once before a release.
 
-If you touched `skills/poteto-mode/scripts/`:
+If you touched `skills/just-bleat-it/scripts/`:
 
 ```shell
-cd plugins/pstack/skills/poteto-mode/scripts
+cd plugins/bleat/skills/just-bleat-it/scripts
 bun install --frozen-lockfile
 bun run typecheck
 bun test orch watch-pr
@@ -55,7 +55,7 @@ uvx zizmor@1.29.0 --persona pedantic --min-severity low --collect all -- .
 
 ## Things that will fail CI
 
-- **A `plugins/pstack/commands/` directory.** Claude Code renders commands and user-invocable skills in the same slash menu, so a trampoline paired with its skill duplicates every `/pstack:<name>` row ([#22](https://github.com/michael-denyer/pstack-claude/issues/22)). Codex stubs live in `plugins/pstack/.codex-plugin/prompts/`. An upstream sync will try to reintroduce `commands/`; move any new stubs across.
+- **A `plugins/bleat/commands/` directory.** Claude Code renders commands and user-invocable skills in the same slash menu, so a trampoline paired with its skill duplicates every `/bleat:<name>` row ([#22](https://github.com/michael-denyer/pstack-claude/issues/22)). Codex stubs live in `plugins/bleat/.codex-plugin/prompts/`. An upstream sync will try to reintroduce `commands/`; move any new stubs across.
 - **`disable-model-invocation` in a skill's frontmatter.** On a skill it makes the Skill tool refuse the invocation outright, which breaks the SessionStart mandate. The `principle-*` leaves use `user-invocable: false` instead.
 - **Stale generated output.** The `Generated files current` job reruns `bun tools/generate.mjs` and fails on any diff. Editing `VERSION` without regenerating, hand-editing a manifest's `version` field, or bumping without a matching `CHANGES.md` heading all land here. The same run validates `hooks/hooks.json`: every command must point at an existing, executable script under the plugin.
 - **A shell script that fails shellcheck.** Scripts are selected by `.sh` extension or by shebang, so the extensionless hook scripts (`hooks/session-start`) are linted too.
@@ -83,4 +83,4 @@ So: any PR that changes skill behavior either bumps the version itself or is fol
 
 ## Reporting bugs
 
-Include the pstack version, the Claude Code (or Codex) version, and the reproduction steps. [#22](https://github.com/michael-denyer/pstack-claude/issues/22) is the model to copy: it named versions, gave numbered steps, and included the experiment that isolated the cause.
+Include the bleat version, the Claude Code (or Codex) version, and the reproduction steps. [#22](https://github.com/michael-denyer/pstack-claude/issues/22) is the model to copy: it named versions, gave numbered steps, and included the experiment that isolated the cause.

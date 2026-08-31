@@ -19,6 +19,86 @@
       "pattern": ".cursor/rules/",
       "replacement": "CLAUDE.md imports",
       "rationale": "Claude Code has no auto-applied rules directory; inclusion is explicit via CLAUDE.md"
+    },
+    {
+      "pattern": "pstack-claude.code-workspace",
+      "replacement": "bleat.code-workspace",
+      "rationale": "the workspace file carries the product name"
+    },
+    {
+      "pattern": "michael-denyer/pstack-claude",
+      "replacement": "QGGUARDPORT",
+      "rationale": "guard: the upstream port URL keeps its own name"
+    },
+    {
+      "pattern": "cursor/plugins/pstack",
+      "replacement": "QGGUARDPSTACKURL",
+      "rationale": "guard: the upstream pstack URL keeps its own name"
+    },
+    {
+      "pattern": "tree/main/pstack",
+      "replacement": "QGGUARDTREE",
+      "rationale": "guard: the upstream tree URL keeps its own name"
+    },
+    {
+      "pattern": "\"upstreamPath\": \"pstack\"",
+      "replacement": "\"upstreamPath\": \"QGGUARDUPATH\"",
+      "rationale": "guard: the upstream component path is upstream's name"
+    },
+    {
+      "pattern": "Poteto mode",
+      "replacement": "Just-bleat-it mode",
+      "rationale": "bleat rebrand, capitalized prose spelling"
+    },
+    {
+      "pattern": "Poteto subagent",
+      "replacement": "Bleat subagent",
+      "rationale": "bleat rebrand, capitalized prose spelling"
+    },
+    {
+      "pattern": "setup-pstack",
+      "replacement": "setup-bleat",
+      "rationale": "bleat rebrand; must run before the bare pstack rule"
+    },
+    {
+      "pattern": "poteto-off",
+      "replacement": "bleat-off",
+      "rationale": "bleat rebrand for the mode-exit command"
+    },
+    {
+      "pattern": "poteto-mode",
+      "replacement": "just-bleat-it",
+      "rationale": "bleat rebrand for the entry skill"
+    },
+    {
+      "pattern": "poteto-agent",
+      "replacement": "bleat-agent",
+      "rationale": "bleat rebrand for the routing subagent"
+    },
+    {
+      "pattern": "pstack",
+      "replacement": "bleat",
+      "rationale": "bleat rebrand; bare poteto stays as author attribution"
+    },
+    {
+      "pattern": "QGGUARDPSTACKURL",
+      "replacement": "cursor/plugins/pstack",
+      "rationale": "restore guard"
+    },
+    {
+      "pattern": "QGGUARDTREE",
+      "replacement": "tree/main/pstack",
+      "rationale": "restore guard"
+    },
+    {
+      "pattern": "QGGUARDUPATH",
+      "replacement": "pstack",
+      "rationale": "restore guard"
+    },
+    {
+      "pattern": "QGGUARDPORT",
+      "replacement": "michael-denyer/pstack-claude",
+      "rationale": "restore guard"
     }
   ],
   "denylist": [
@@ -49,6 +129,10 @@
     {
       "token": "/goal",
       "hint": "Cursor's /goal has no Claude Code equivalent; the autopilot playbooks keep the objective in standing orders"
+    },
+    {
+      "token": "Poteto",
+      "hint": "a capitalized spelling the rename rules don't cover; add a rule"
     }
   ]
 }

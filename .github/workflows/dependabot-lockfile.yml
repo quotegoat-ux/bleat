@@ -33,7 +33,7 @@ jobs:
         with:
           bun-version: "1.3.14"
       - name: Regenerate lockfile
-        working-directory: plugins/pstack/skills/poteto-mode/scripts
+        working-directory: plugins/bleat/skills/just-bleat-it/scripts
         run: bun install
       - name: Commit if the lockfile moved
         env:
@@ -41,12 +41,12 @@ jobs:
           # env keeps it out of the shell command line.
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          if git diff --quiet -- plugins/pstack/skills/poteto-mode/scripts/bun.lock; then
+          if git diff --quiet -- plugins/bleat/skills/just-bleat-it/scripts/bun.lock; then
             echo "ok: bun.lock already matches package.json"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add plugins/pstack/skills/poteto-mode/scripts/bun.lock
+          git add plugins/bleat/skills/just-bleat-it/scripts/bun.lock
           git commit -m "deps: regenerate bun.lock"
           git push origin "HEAD:$HEAD_REF"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 // Sync this port forward to a new upstream SHA.
 //
-//   bun tools/sync.mjs <component> <new-sha>     e.g. bun tools/sync.mjs pstack abc1234
+//   bun tools/sync.mjs <component> <new-sha>     e.g. bun tools/sync.mjs bleat abc1234
 //
 // Reads tools/upstream.json (remote + per-component pin) and
 // tools/substitutions.json (mechanical Cursor->Claude rewrites plus a denylist
@@ -122,7 +122,7 @@ function main() {
   }
   const { substitutions, denylist } = JSON.parse(readFileSync(join(repo, "tools/substitutions.json"), "utf8"));
 
-  const scratch = mkdtempSync(join(tmpdir(), "pstack-sync-"));
+  const scratch = mkdtempSync(join(tmpdir(), "bleat-sync-"));
   try {
     console.log(`cloning ${upstream.remote} ...`);
     git(["clone", "--quiet", upstream.remote, join(scratch, "clone")]);

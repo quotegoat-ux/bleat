@@ -1,14 +1,14 @@
 {
-  "name": "pstack-claude",
+  "name": "bleat-claude",
   "interface": {
-    "displayName": "pstack"
+    "displayName": "bleat"
   },
   "plugins": [
     {
-      "name": "pstack",
+      "name": "bleat",
       "source": {
         "source": "local",
-        "path": "./plugins/pstack"
+        "path": "./plugins/bleat"
       },
       "policy": {
         "installation": "AVAILABLE",
