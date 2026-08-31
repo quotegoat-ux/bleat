@@ -67,7 +67,10 @@ export function syncComponent({ oldDir, newDir, localDir, rules, write }) {
   const report = { written: [], manual: [], unchanged: 0, counts: new Map() };
   for (const newFile of listFiles(newDir)) {
     const rel = relative(newDir, newFile);
-    const localFile = join(localDir, rel);
+    // The rules apply to paths too: upstream's skills/poteto-mode/ must land
+    // in skills/just-bleat-it/, or a renamed tree regrows old-named copies.
+    const localRel = applySubstitutions(rel, rules).text;
+    const localFile = join(localDir, localRel);
     const oldFile = join(oldDir, rel);
     const newRaw = readFileSync(newFile);
     const isText = !rel.match(/\.(png|jpg|gif|lock)$/);
@@ -78,7 +81,7 @@ export function syncComponent({ oldDir, newDir, localDir, rules, write }) {
         mkdirSync(dirname(localFile), { recursive: true });
         writeFileSync(localFile, subNew ? subNew.text : newRaw);
       }
-      report.written.push(`added: ${rel}`);
+      report.written.push(`added: ${localRel}`);
       subNew?.counts.forEach((n, p) => report.counts.set(p, (report.counts.get(p) ?? 0) + n));
       continue;
     }
@@ -98,10 +101,10 @@ export function syncComponent({ oldDir, newDir, localDir, rules, write }) {
     }
     if (cleanBase) {
       if (write) writeFileSync(localFile, newTarget);
-      report.written.push(`updated: ${rel}`);
+      report.written.push(`updated: ${localRel}`);
       subNew?.counts.forEach((n, p) => report.counts.set(p, (report.counts.get(p) ?? 0) + n));
     } else {
-      report.manual.push(rel);
+      report.manual.push(localRel);
     }
   }
   return report;

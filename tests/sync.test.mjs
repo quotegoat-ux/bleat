@@ -31,6 +31,17 @@ describe("applySubstitutions", () => {
   });
 });
 
+describe("syncComponent path mapping", () => {
+  test("routes a new upstream file through the rename rules", () => {
+    const newDir = tree({ "skills/poteto-mode/playbooks/new.md": "poteto-mode grows." });
+    const oldDir = tree({});
+    const localDir = tree({});
+    const report = syncComponent({ oldDir, newDir, localDir, rules: RULES.substitutions, write: true });
+    expect(report.written).toContain("added: skills/just-bleat-it/playbooks/new.md");
+    expect(readFileSync(join(localDir, "skills/just-bleat-it/playbooks/new.md"), "utf8")).toBe("just-bleat-it grows.");
+  });
+});
+
 describe("denylistHits", () => {
   test("flags residual Cursor-isms with file, line, and hint", () => {
     const hits = denylistHits("skills/x/SKILL.md", "line one\nrun control-cli now\n", RULES.denylist);
