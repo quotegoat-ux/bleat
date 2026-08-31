@@ -42,6 +42,16 @@ describe("syncComponent path mapping", () => {
   });
 });
 
+describe("syncComponent exclude", () => {
+  test("skips upstream paths under an excluded prefix", () => {
+    const newDir = tree({ "automations/benny/FOR_AGENTS.md": "Cursor-only.", "skills/x/SKILL.md": "fine" });
+    const oldDir = tree({});
+    const localDir = tree({});
+    const report = syncComponent({ oldDir, newDir, localDir, rules: RULES.substitutions, write: true, exclude: ["automations/"] });
+    expect(report.written).toEqual(["added: skills/x/SKILL.md"]);
+  });
+});
+
 describe("denylistHits", () => {
   test("flags residual Cursor-isms with file, line, and hint", () => {
     const hits = denylistHits("skills/x/SKILL.md", "line one\nrun control-cli now\n", RULES.denylist);

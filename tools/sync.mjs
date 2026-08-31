@@ -63,10 +63,11 @@ function listFiles(dir) {
 
 // Compare old-upstream vs new-upstream vs local for one component tree.
 // Returns { written, manual, unchanged, counts } and writes clean updates.
-export function syncComponent({ oldDir, newDir, localDir, rules, write }) {
+export function syncComponent({ oldDir, newDir, localDir, rules, write, exclude = [] }) {
   const report = { written: [], manual: [], unchanged: 0, counts: new Map() };
   for (const newFile of listFiles(newDir)) {
     const rel = relative(newDir, newFile);
+    if (exclude.some((prefix) => rel.startsWith(prefix))) continue;
     // The rules apply to paths too: upstream's skills/poteto-mode/ must land
     // in skills/just-bleat-it/, or a renamed tree regrows old-named copies.
     const localRel = applySubstitutions(rel, rules).text;
@@ -136,12 +137,22 @@ function main() {
     const oldDir = co(spec.sha, join(scratch, "old"));
     const newDir = co(newSha, join(scratch, "new"));
 
+    // A failed run leaves its writes in the tree; a rerun would see them as
+    // local state, scan nothing, and advance the pin over denylist-dirty
+    // content. Demand a clean slate instead.
+    const dirty = git(["status", "--porcelain", "--", spec.localPath], { cwd: repo }).trim();
+    if (dirty) {
+      console.error(`FAIL: ${spec.localPath} has uncommitted changes; commit or reset them before syncing.`);
+      process.exit(1);
+    }
+
     const report = syncComponent({
       oldDir,
       newDir,
       localDir: join(repo, spec.localPath),
       rules: substitutions,
       write: true,
+      exclude: spec.exclude ?? [],
     });
 
     const hits = report.written.flatMap((entry) => {
