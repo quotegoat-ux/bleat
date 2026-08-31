@@ -25,6 +25,11 @@ describe("applySubstitutions", () => {
     expect(counts.get("AskQuestion")).toBe(1);
   });
 
+  test("does not eat upstack while renaming pstack", () => {
+    const { text } = applySubstitutions("Upstack threads wait; upstack fixes batch; pstack renames.", RULES.substitutions);
+    expect(text).toBe("Upstack threads wait; upstack fixes batch; bleat renames.");
+  });
+
   test("leaves AskUserQuestion alone", () => {
     const { text } = applySubstitutions("Prefer AskUserQuestion here.", RULES.substitutions);
     expect(text).toBe("Prefer AskUserQuestion here.");

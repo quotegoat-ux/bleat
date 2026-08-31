@@ -21,6 +21,16 @@
       "rationale": "Claude Code has no auto-applied rules directory; inclusion is explicit via CLAUDE.md"
     },
     {
+      "pattern": "upstack",
+      "replacement": "QGGUARDUPSTACK",
+      "rationale": "guard: upstack contains pstack as a substring"
+    },
+    {
+      "pattern": "Upstack",
+      "replacement": "QGGUARDUPSTACKCAP",
+      "rationale": "guard: capitalized spelling of the same"
+    },
+    {
       "pattern": "pstack-claude.code-workspace",
       "replacement": "bleat.code-workspace",
       "rationale": "the workspace file carries the product name"
@@ -98,6 +108,16 @@
     {
       "pattern": "QGGUARDPORT",
       "replacement": "michael-denyer/pstack-claude",
+      "rationale": "restore guard"
+    },
+    {
+      "pattern": "QGGUARDUPSTACKCAP",
+      "replacement": "Upstack",
+      "rationale": "restore guard"
+    },
+    {
+      "pattern": "QGGUARDUPSTACK",
+      "replacement": "upstack",
       "rationale": "restore guard"
     }
   ],
