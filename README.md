@@ -32,7 +32,9 @@ Claude Code on the web starts every session from a fresh clone of the repository
 }
 ```
 
-The cloud environment needs network access that reaches `github.com`; the default **Trusted** access level allows it. The same file also registers the marketplace for anyone who opens the repository locally once they trust the folder. To get bleat in every cloud session without touching each repository, enable it for your claude.ai account instead, and Claude Code loads it as a synced plugin.
+The cloud environment needs network access that reaches `github.com`; the default **Trusted** access level allows it. The same file also registers the marketplace for anyone who opens the repository locally once they trust the folder.
+
+To get bleat in every cloud session without editing each repository, enable it for your claude.ai account instead. On a Team or Enterprise plan, an organization Owner or Admin adds this repository as a marketplace under **Organization settings > Plugins** (`claude.ai/admin-settings/plugins`). Organization sync reads `.claude-plugin/marketplace.json` through the Claude GitHub App and packages `plugins/bleat`, so members never need access to this repository. Each member then turns bleat on from **Customize** in their claude.ai settings, and every cloud and Cowork session loads it as `bleat@synced` with no marketplace or install step. A repository that also declares `bleat@bleat` in its own settings takes precedence over the synced copy.
 
 The skill-authoring routes work best with the `plugin-dev` plugin installed (`/plugin install plugin-dev@claude-plugins-official`); everything else runs without it.
 
