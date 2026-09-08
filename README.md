@@ -15,6 +15,25 @@ In Claude Code:
 
 The plugin routes on its own once installed. A `SessionStart` hook (on startup, `/clear`, and after `/compact`) injects a short mandate that routes any non-trivial engineering task into `just-bleat-it` before the first response, and a `UserPromptSubmit` hook keeps the mode on for the rest of a session once you invoke it. Explicit user instructions take precedence, and dispatched subagents ignore the mandate. To opt out, delete `hooks/hooks.json` from the installed copy (`~/.claude/plugins/cache/bleat/bleat/<version>/hooks/hooks.json`); a plugin update restores it.
 
+### Cloud sessions
+
+Claude Code on the web starts every session from a fresh clone of the repository, so a plugin you installed with `/plugin install` on your own machine isn't there, and `/plugin` itself doesn't run in a cloud session. To use bleat in a repository's cloud sessions, declare the marketplace and the plugin in that repository's `.claude/settings.json` and commit the file. Claude Code installs the plugin at session start:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "bleat": {
+      "source": { "source": "github", "repo": "quotegoat-ux/bleat" }
+    }
+  },
+  "enabledPlugins": {
+    "bleat@bleat": true
+  }
+}
+```
+
+The cloud environment needs network access that reaches `github.com`; the default **Trusted** access level allows it. The same file also registers the marketplace for anyone who opens the repository locally once they trust the folder. To get bleat in every cloud session without touching each repository, enable it for your claude.ai account instead, and Claude Code loads it as a synced plugin.
+
 The skill-authoring routes work best with the `plugin-dev` plugin installed (`/plugin install plugin-dev@claude-plugins-official`); everything else runs without it.
 
 ## Start
