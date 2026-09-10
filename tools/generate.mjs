@@ -186,7 +186,7 @@ export function codexModelNamesSection(models) {
     "diverse-model panels; each model-consuming skill lists its own in a Models section). These slugs do not " +
     "resolve on Codex. Substitute your configured Codex models:\n\n" +
     `- Single-model roles: your primary Codex model (for example ${code(models.codex.singleRoleExample)}).\n` +
-    "- Diverse-model panels (`arena`, `architect`, `interrogate`, `how` critics, `reflect`): the adversarial " +
+    "- Diverse-model panels (`arena`, `architect`, `interrogate`, `reflect`): the adversarial " +
     "signal comes from model diversity, so use the distinct Codex models available to you. A good default quad " +
     `on ChatGPT is ${codeList(models.codex.panelQuad)}. If only one model family is reachable, vary reasoning ` +
     "effort and note in the verdict that diversity was reduced.\n\n" +
