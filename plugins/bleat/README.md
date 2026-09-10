@@ -27,7 +27,7 @@ two steps:
 
 new here? the [bleat guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the mode skill uses them for you as needed. out of the box the mode splits work by model strength: precisely-specified code goes to sol, fast mechanical code goes to grok, and prose and judgment go to fable. the default panel is fable / sol / grok / opus 5. [`/setup-bleat`](./skills/setup-bleat/SKILL.md) changes any of it.
+that's it. the other skills are situational; the mode skill uses them for you as needed. out of the box the mode splits work by model strength: precisely-specified code, prose, and judgment go to fable 5.1, while fast mechanical code goes to grok. the default panel is fable 5.1 / sol / grok / opus 5. [`/setup-bleat`](./skills/setup-bleat/SKILL.md) changes any of it.
 
 ## usage
 
@@ -35,7 +35,7 @@ use [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) at the start of a task. 
 
 ### just use [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md)
 
-this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-two playbooks:
+this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-three playbooks:
 
 ```
 /just-bleat-it this pr has a subtle bug where the scroll drifts every 750ms even when idle. repro
@@ -48,7 +48,7 @@ morning.
 ```
 
 <details>
-<summary>the twenty-two playbooks</summary>
+<summary>the twenty-three playbooks</summary>
 
 | playbook | for |
 |---|---|
@@ -65,15 +65,16 @@ morning.
 | [authoring a skill](./skills/just-bleat-it/playbooks/authoring-a-skill.md) | writing or editing a SKILL.md. |
 | [eval](./skills/just-bleat-it/playbooks/eval.md) | test how a skill or prompt change affects agent behavior, blinded. |
 | [babysit](./skills/just-bleat-it/playbooks/babysit.md) | drive a pr or a stack to merge-ready: conflicts, review threads, ci. |
-| [shipping](./skills/just-bleat-it/playbooks/shipping.md) | independently verify a green stack, then land the contiguous verified run with graphite merge-when-ready. |
+| [shipping](./skills/just-bleat-it/playbooks/shipping.md) | independently verify a green stack, then land the contiguous verified run bottom-up through github by default or origin when available. |
 | [autonomous run](./skills/just-bleat-it/playbooks/autonomous-run.md) | drive a long task to completion without stopping. |
 | [orchestrate](./skills/just-bleat-it/playbooks/orchestrate.md) | a standing project handed to one coordinator chat: multi-day, many stacked prs, fleets of subagents. |
 | [autopilot-full](./skills/just-bleat-it/playbooks/autopilot-full.md) | run independent prs to merged with one owner per pr and root verification of each merge-ready head. |
-| [autopilot-stack](./skills/just-bleat-it/playbooks/autopilot-stack.md) | build and verify one linear graphite stack for the operator to review and land. |
+| [autopilot-stack](./skills/just-bleat-it/playbooks/autopilot-stack.md) | build and verify one linear base-branch stack for the operator to review and land. |
 | [session pickup](./skills/just-bleat-it/playbooks/session-pickup.md) | resume or take over a prior agent's in-flight work. |
 | [pause safely](./skills/just-bleat-it/playbooks/pause-safely.md) | suspend in-flight work cleanly so it can be resumed later. |
 | [multi-phase plan](./skills/just-bleat-it/playbooks/multi-phase-plan.md) | work that spans phases or stacked PRs. |
 | [worktree cleanup](./skills/just-bleat-it/playbooks/worktree-cleanup.md) | reclaim disk by pruning merged or abandoned worktrees and stale ios simulators, safety-gated. |
+| [opening a pr](./skills/just-bleat-it/playbooks/opening-a-pr.md) | open a ready pr from small ordered commits with a conventional commits title and a briefing-style body. invoked at the end of every other playbook. |
 
 </details>
 
@@ -81,10 +82,9 @@ morning.
 
 when invoked it:
 
-1. opens a todo list. the first item is reading the inline principles index in the skill.
-2. matches your task to a [playbook](./skills/just-bleat-it/playbooks/) and copies the steps in verbatim.
-3. routes to the other skills as the steps fire.
-4. writes unslopped replies framed for the consumer and the maintainer.
+1. matches your task to a [playbook](./skills/just-bleat-it/playbooks/) and opens a todo list whose first items are its steps, copied in verbatim.
+2. routes to the other skills as the steps fire.
+3. writes unslopped replies framed for the consumer and the maintainer.
 
 the full rules and playbooks live in [`skills/just-bleat-it/SKILL.md`](./skills/just-bleat-it/SKILL.md).
 
@@ -185,7 +185,7 @@ automate-me:       /automate-me
 
 ## the `bleat-agent` and Comment Sicko subagents
 
-bleat also ships a subagent that runs my style end to end. spawn it from a parent agent via [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md). it reads `just-bleat-it` in full, including its inline principles index, before doing any work. substituting `generalPurpose` skips that read and drifts.
+bleat also ships a subagent that runs my style end to end. spawn it from a parent agent via [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md). it reads `just-bleat-it` in full, including its inline principles index, before doing any work. substituting `general-purpose` skips that read and drifts.
 
 [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) and [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md) route through the same wrapper.
 
@@ -193,16 +193,17 @@ bleat also ships [Comment Sicko](./agents/comment-sicko.md), a read-only comment
 
 ## principles
 
-twenty-one short skills, one principle each. `just-bleat-it` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
+twenty-three short skills, one principle each. `just-bleat-it` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
 
 <details>
-<summary>all twenty-one principles</summary>
+<summary>all twenty-three principles</summary>
 
 | principle | group | rule |
 |---|---|---|
 | [laziness-protocol](./skills/principle-laziness-protocol/SKILL.md) | core | Bias toward deletion and the smallest change that solves the problem. |
 | [foundational-thinking](./skills/principle-foundational-thinking/SKILL.md) | core | Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious. |
 | [redesign-from-first-principles](./skills/principle-redesign-from-first-principles/SKILL.md) | core | Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on. |
+| [attack-the-premise](./skills/principle-attack-the-premise/SKILL.md) | core | Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it. |
 | [subtract-before-you-add](./skills/principle-subtract-before-you-add/SKILL.md) | core | Remove dead weight, redundant validators, and stub references first, then build on the simpler base. |
 | [minimize-reader-load](./skills/principle-minimize-reader-load/SKILL.md) | core | Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope. |
 | [outcome-oriented-execution](./skills/principle-outcome-oriented-execution/SKILL.md) | core | Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code. |
@@ -218,6 +219,7 @@ twenty-one short skills, one principle each. `just-bleat-it` indexes them inline
 | [prove-it-works](./skills/principle-prove-it-works/SKILL.md) | verification | Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'. |
 | [fix-root-causes](./skills/principle-fix-root-causes/SKILL.md) | verification | Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes. |
 | [sequence-verifiable-units](./skills/principle-sequence-verifiable-units/SKILL.md) | verification | Apply to multi-step work (sweeps, migrations, runs of similar edits) and to how you stack commits and PRs. Break work into small units that each end in a verifiable state, check each before the next, and order delivery so the sequence proves itself to a reviewer. |
+| [test-behavior-not-implementation](./skills/principle-test-behavior-not-implementation/SKILL.md) | verification | Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test. |
 | [guard-the-context-window](./skills/principle-guard-the-context-window/SKILL.md) | delegation | Route bulk to subagents; keep summaries in the main thread, not raw payloads. |
 | [never-block-on-the-human](./skills/principle-never-block-on-the-human/SKILL.md) | delegation | Proceed, present the result, let the human course-correct after the fact; reserve confirmation for irreversible actions. |
 | [encode-lessons-in-structure](./skills/principle-encode-lessons-in-structure/SKILL.md) | meta | Encode the rule as a lint, metadata flag, runtime check, or script instead of more text. |
@@ -228,11 +230,10 @@ twenty-one short skills, one principle each. `just-bleat-it` indexes them inline
 
 a few things `just-bleat-it` references but doesn't bundle:
 
-- `/deslop` and the `deslop` skill ship in the `cursor-team-kit` plugin.
-- `control-cli` (for CLIs and TUIs) and `control-ui` (for browser, Electron, web) ship in `cursor-team-kit` too.
-- `/create-skill` is a cursor built-in. cursor also ships a built-in `/babysit`; inside `just-bleat-it`, the [babysit playbook](./skills/just-bleat-it/playbooks/babysit.md) supersedes it for pr-status requests.
+- the driver skills are claude code built-ins. `run` drives clis and tuis, `verify` drives browser, electron, and web uis.
+- `plugin-dev:skill-development` is claude code's skill-authoring guidance. the [authoring a skill](./skills/just-bleat-it/playbooks/authoring-a-skill.md) playbook and [`/automate-me`](./skills/automate-me/SKILL.md) route through it.
 
-install `cursor-team-kit` alongside bleat if you want the full set.
+everything else `just-bleat-it` routes to ships in this plugin, [`/deslop`](./skills/deslop/SKILL.md) and the pr helpers included. bleat also bundles its own [`/babysit`](./skills/babysit/SKILL.md); inside `just-bleat-it`, the [babysit playbook](./skills/just-bleat-it/playbooks/babysit.md) supersedes it for pr-status requests.
 
 ## why are there no planning skills?
 

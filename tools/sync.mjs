@@ -10,7 +10,8 @@
 //
 //   - local copy matches the substituted OLD upstream text -> clean update, written
 //   - local copy is missing -> new file, written
-//   - local copy differs (port-specific edits) -> left alone, reported for manual merge
+//   - local copy differs (port-specific edits) -> three-way merged; a clean
+//     merge is written, a conflict is left alone and reported for manual merge
 //
 // Every written file is then denylist-scanned; a hit fails the run with file,
 // line, and the hint for that token, leaving the tree for inspection. The pin
@@ -50,6 +51,33 @@ export function denylistHits(path, text, denylist) {
   return hits;
 }
 
+// base = substituted OLD upstream, ours = local, theirs = substituted NEW
+// upstream. Returns the merged text, or null when the two sides overlap.
+export function threeWayMerge(base, ours, theirs) {
+  const dir = mkdtempSync(join(tmpdir(), "bleat-merge-"));
+  try {
+    const write = (name, text) => {
+      const file = join(dir, name);
+      writeFileSync(file, text);
+      return file;
+    };
+    const oursFile = write("ours", ours);
+    const baseFile = write("base", base);
+    const theirsFile = write("theirs", theirs);
+    try {
+      return execFileSync(
+        "git",
+        ["merge-file", "-p", "-L", "local", "-L", "upstream-base", "-L", "upstream", oursFile, baseFile, theirsFile],
+        { encoding: "utf8", maxBuffer: 1 << 28 },
+      );
+    } catch {
+      return null;
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function listFiles(dir) {
   const out = [];
   for (const entry of readdirSync(dir)) {
@@ -64,7 +92,7 @@ function listFiles(dir) {
 // Compare old-upstream vs new-upstream vs local for one component tree.
 // Returns { written, manual, unchanged, counts } and writes clean updates.
 export function syncComponent({ oldDir, newDir, localDir, rules, write, exclude = [] }) {
-  const report = { written: [], manual: [], unchanged: 0, counts: new Map() };
+  const report = { written: [], merged: [], manual: [], deletedUpstream: [], unchanged: 0, counts: new Map() };
   for (const newFile of listFiles(newDir)) {
     const rel = relative(newDir, newFile);
     if (exclude.some((prefix) => rel.startsWith(prefix))) continue;
@@ -95,18 +123,34 @@ export function syncComponent({ oldDir, newDir, localDir, rules, write, exclude 
     // Did the port edit this file beyond the mechanical substitutions? Judge
     // against the substituted OLD upstream text; equality there means every
     // local difference came from upstream drift, so the update is clean.
-    let cleanBase = false;
-    if (existsSync(oldFile) && isText) {
-      const subOld = applySubstitutions(readFileSync(oldFile, "utf8"), rules);
-      cleanBase = local.toString("utf8") === subOld.text;
-    }
-    if (cleanBase) {
+    const subOld = existsSync(oldFile) && isText ? applySubstitutions(readFileSync(oldFile, "utf8"), rules).text : null;
+    if (subOld !== null && local.toString("utf8") === subOld) {
       if (write) writeFileSync(localFile, newTarget);
       report.written.push(`updated: ${localRel}`);
       subNew?.counts.forEach((n, p) => report.counts.set(p, (report.counts.get(p) ?? 0) + n));
-    } else {
-      report.manual.push(localRel);
+      continue;
     }
+    // The port edited this file and upstream moved too. Merge the two sets of
+    // edits; only genuine overlap needs a human.
+    const merged = subOld === null ? null : threeWayMerge(subOld, local.toString("utf8"), newTarget.toString("utf8"));
+    if (merged === null) {
+      report.manual.push(localRel);
+    } else if (merged === local.toString("utf8")) {
+      report.unchanged++;
+    } else {
+      if (write) writeFileSync(localFile, merged);
+      report.merged.push(`merged: ${localRel}`);
+    }
+  }
+  // A sync only adds and updates, so a file upstream dropped stays behind as an
+  // orphan the port still ships. Report those; removing one is the human's call,
+  // since the port deliberately keeps some files upstream never had.
+  for (const oldFile of listFiles(oldDir)) {
+    const rel = relative(oldDir, oldFile);
+    if (exclude.some((prefix) => rel.startsWith(prefix))) continue;
+    if (existsSync(join(newDir, rel))) continue;
+    const localRel = applySubstitutions(rel, rules).text;
+    if (existsSync(join(localDir, localRel))) report.deletedUpstream.push(localRel);
   }
   return report;
 }
@@ -155,18 +199,23 @@ function main() {
       exclude: spec.exclude ?? [],
     });
 
-    const hits = report.written.flatMap((entry) => {
-      const rel = entry.replace(/^(added|updated): /, "");
+    const hits = [...report.written, ...report.merged].flatMap((entry) => {
+      const rel = entry.replace(/^(added|updated|merged): /, "");
       const path = join(spec.localPath, rel);
       return denylistHits(path, readFileSync(join(repo, path), "utf8"), denylist);
     });
 
     console.log(`\nunchanged: ${report.unchanged} files`);
     for (const w of report.written) console.log(w);
+    for (const m of report.merged) console.log(m);
     for (const [pattern, n] of report.counts) console.log(`substituted: "${pattern}" x${n}`);
     if (report.manual.length) {
       console.log(`\nneeds manual merge (port-specific edits meet upstream changes):`);
       for (const m of report.manual) console.log(`  ${spec.localPath}/${m}`);
+    }
+    if (report.deletedUpstream.length) {
+      console.log(`\ndeleted upstream, still present here (delete if the port has no reason to keep it):`);
+      for (const d of report.deletedUpstream) console.log(`  ${spec.localPath}/${d}`);
     }
     if (hits.length) {
       console.error(`\nFAIL: Cursor-isms in synced files; add a substitution or rewrite by hand, then rerun:`);

@@ -89,15 +89,6 @@
       "skill": "how"
     },
     {
-      "role": "how critics",
-      "models": [
-        "claude-opus-5",
-        "claude-fable-5",
-        "claude-sonnet-5"
-      ],
-      "skill": "how"
-    },
-    {
       "role": "why investigators",
       "models": [
         "claude-opus-5"

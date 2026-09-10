@@ -16,6 +16,11 @@
       "rationale": "personal skills directory"
     },
     {
+      "pattern": ".cursor/rules/pstack-models.mdc",
+      "replacement": ".claude/bleat-models.md",
+      "rationale": "the per-role override sheet; must run before the generic .cursor/rules/ rule, which would mangle the filename into prose"
+    },
+    {
       "pattern": ".cursor/rules/",
       "replacement": "CLAUDE.md imports",
       "rationale": "Claude Code has no auto-applied rules directory; inclusion is explicit via CLAUDE.md"
@@ -153,6 +158,18 @@
     {
       "token": "Poteto",
       "hint": "a capitalized spelling the rename rules don't cover; add a rule"
+    },
+    {
+      "token": "generalPurpose",
+      "hint": "Cursor's subagent_type spelling; Claude Code's value is general-purpose"
+    },
+    {
+      "token": "cursor-team-kit",
+      "hint": "bleat vendors those skills, so pointing a user at that plugin is wrong; name the bundled skill"
+    },
+    {
+      "token": "CLAUDE.md imports",
+      "hint": "a .cursor/rules/ path fell through the generic rule and became prose; add a specific substitution for that file"
     }
   ]
 }
