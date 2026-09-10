@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { applySubstitutions, denylistHits, syncComponent } from "../tools/sync.mjs";
+import { applySubstitutions, denylistHits, syncComponent, threeWayMerge } from "../tools/sync.mjs";
 
 const RULES = JSON.parse(readFileSync(join(import.meta.dir, "../tools/substitutions.json"), "utf8"));
 
@@ -54,6 +54,45 @@ describe("syncComponent exclude", () => {
     const localDir = tree({});
     const report = syncComponent({ oldDir, newDir, localDir, rules: RULES.substitutions, write: true, exclude: ["automations/"] });
     expect(report.written).toEqual(["added: skills/x/SKILL.md"]);
+  });
+});
+
+describe("threeWayMerge", () => {
+  test("merges disjoint edits and reports overlap as null", () => {
+    const base = "one\ntwo\nthree\n";
+    expect(threeWayMerge(base, "ONE\ntwo\nthree\n", "one\ntwo\nTHREE\n")).toBe("ONE\ntwo\nTHREE\n");
+    expect(threeWayMerge(base, "one\nPORT\nthree\n", "one\nUPSTREAM\nthree\n")).toBeNull();
+  });
+});
+
+describe("syncComponent three-way merge", () => {
+  test("takes upstream's edit when the port edited a different part of the file", () => {
+    const body = (opening, step) => `${opening}\n\nfiller a\nfiller b\nfiller c\nfiller d\n\n${step}\n`;
+    const oldUp = tree({ "skills/a/SKILL.md": body("Intro line.", "Step 1: AskQuestion about scope.") });
+    const newUp = tree({ "skills/a/SKILL.md": body("Intro line.", "Step 1: AskQuestion about scope, then verify.") });
+    const local = tree({ "skills/a/SKILL.md": body("Intro line.\n\nPlatform note: Claude Code only.", "Step 1: AskUserQuestion about scope.") });
+
+    const report = syncComponent({ oldDir: oldUp, newDir: newUp, localDir: local, rules: RULES.substitutions, write: true });
+
+    expect(report.merged).toEqual(["merged: skills/a/SKILL.md"]);
+    expect(report.manual).toEqual([]);
+    expect(readFileSync(join(local, "skills/a/SKILL.md"), "utf8")).toBe(
+      body("Intro line.\n\nPlatform note: Claude Code only.", "Step 1: AskUserQuestion about scope, then verify."),
+    );
+  });
+});
+
+describe("syncComponent upstream deletions", () => {
+  test("reports a file upstream dropped that the port still ships", () => {
+    const oldUp = tree({ "skills/how/references/critic-prompt.md": "old", "skills/how/SKILL.md": "body" });
+    const newUp = tree({ "skills/how/SKILL.md": "body" });
+    const local = tree({ "skills/how/references/critic-prompt.md": "old", "skills/how/SKILL.md": "body" });
+
+    const report = syncComponent({ oldDir: oldUp, newDir: newUp, localDir: local, rules: RULES.substitutions, write: true });
+
+    expect(report.deletedUpstream).toEqual(["skills/how/references/critic-prompt.md"]);
+    // reported, never removed: the port decides
+    expect(readFileSync(join(local, "skills/how/references/critic-prompt.md"), "utf8")).toBe("old");
   });
 });
 

@@ -185,7 +185,7 @@ automate-me:       /automate-me
 
 ## the `bleat-agent` and Comment Sicko subagents
 
-bleat also ships a subagent that runs my style end to end. spawn it from a parent agent via [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md). it reads `just-bleat-it` in full, including its inline principles index, before doing any work. substituting `generalPurpose` skips that read and drifts.
+bleat also ships a subagent that runs my style end to end. spawn it from a parent agent via [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md). it reads `just-bleat-it` in full, including its inline principles index, before doing any work. substituting `general-purpose` skips that read and drifts.
 
 [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) and [`subagent_type: "bleat-agent"`](./agents/bleat-agent.md) route through the same wrapper.
 
@@ -230,11 +230,10 @@ twenty-three short skills, one principle each. `just-bleat-it` indexes them inli
 
 a few things `just-bleat-it` references but doesn't bundle:
 
-- `/deslop` and the `deslop` skill ship in the `cursor-team-kit` plugin.
-- `control-cli` (for CLIs and TUIs) and `control-ui` (for browser, Electron, web) ship in `cursor-team-kit` too.
-- `/create-skill` is a cursor built-in. cursor also ships a built-in `/babysit`; inside `just-bleat-it`, the [babysit playbook](./skills/just-bleat-it/playbooks/babysit.md) supersedes it for pr-status requests.
+- the driver skills are claude code built-ins. `run` drives clis and tuis, `verify` drives browser, electron, and web uis.
+- `plugin-dev:skill-development` is claude code's skill-authoring guidance. the [authoring a skill](./skills/just-bleat-it/playbooks/authoring-a-skill.md) playbook and [`/automate-me`](./skills/automate-me/SKILL.md) route through it.
 
-install `cursor-team-kit` alongside bleat if you want the full set.
+everything else `just-bleat-it` routes to ships in this plugin, [`/deslop`](./skills/deslop/SKILL.md) and the pr helpers included. bleat also bundles its own [`/babysit`](./skills/babysit/SKILL.md); inside `just-bleat-it`, the [babysit playbook](./skills/just-bleat-it/playbooks/babysit.md) supersedes it for pr-status requests.
 
 ## why are there no planning skills?
 
