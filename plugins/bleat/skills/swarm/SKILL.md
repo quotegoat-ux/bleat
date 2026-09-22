@@ -51,4 +51,4 @@ Return one consolidated in-chat report with the table, issue one-liners, gaps or
 
 Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.
 
-- swarm workers: `claude-opus-5`
+- swarm workers: `claude-opus-5-5`

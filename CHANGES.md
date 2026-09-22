@@ -2,6 +2,10 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.2.1 — move model defaults to Opus 5.5 and Fable 5.1
+
+`plugins/bleat/models.json` now points every default at the current Claude family heads. Each role that named `claude-opus-5` now names `claude-opus-5-5`, and each role that named `claude-fable-5` now names `claude-fable-5-1`. That covers the single-role default, the diverse panel, and every stamped `## Models` section. `claude-sonnet-5` stays as the panel's third seat because no newer Sonnet exists. The available list gains Opus 5.5 and Fable 5.1 ahead of their predecessors, which stay listed so a user can still pin them in `~/.claude/bleat-models.md`. Haiku stays off the list per the 1.0.0 team policy.
+
 ## 1.2.0 — sync to pstack 0.15.0
 
 Catches the port up with `cursor/plugins` from `fd87869` (0.14.5) to `f8abedd` (0.15.0): `73f8be4`, `23a56e2`, `efa2a53`, `7314f72`, `e8d856f`, `d7cde2b`, `71ed0d1`, `f8abedd`.

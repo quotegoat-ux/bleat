@@ -76,5 +76,5 @@ Short list, no preamble:
 
 Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.
 
-- reflect tooling: `claude-opus-5`
-- reflect judgment, divergent, synthesizer: `claude-opus-5`
+- reflect tooling: `claude-opus-5-5`
+- reflect judgment, divergent, synthesizer: `claude-opus-5-5`
