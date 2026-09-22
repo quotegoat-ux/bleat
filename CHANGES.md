@@ -4,7 +4,7 @@ This port applies the Cursor → Claude Code substitutions in skill bodies. Earl
 
 ## 1.2.1 — move model defaults to Opus 5.5 and Fable 5.1
 
-`plugins/bleat/models.json` now points every default at the current Claude family heads. Each role that named `claude-opus-5` now names `claude-opus-5-5`, and each role that named `claude-fable-5` now names `claude-fable-5-1`. That covers the single-role default, the diverse panel, and every stamped `## Models` section. `claude-sonnet-5` stays as the panel's third seat because no newer Sonnet exists. The available list gains Opus 5.5 and Fable 5.1 ahead of their predecessors, which stay listed so a user can still pin them in `~/.claude/bleat-models.md`. Haiku stays off the list per the 1.0.0 team policy.
+`plugins/bleat/models.json` now points every default at the current Claude family heads. Each role that named `claude-opus-5` now names `claude-opus-5-5`, and each role that named `claude-fable-5` now names `claude-fable-5-1`. That covers the single-role default, the diverse panel, and every stamped `## Models` section. `claude-sonnet-5` stays as the panel's third seat because no newer Sonnet exists. The available list gains Opus 5.5 and Fable 5.1 ahead of their predecessors, Opus 5 and Fable 5, which stay listed so a user can still pin them in `~/.claude/bleat-models.md`. The 4.x generation (Opus 4.8, Opus 4.6, Sonnet 4.6) leaves the list, since no default has named any of them since 0.9.15. Haiku stays off the list per the 1.0.0 team policy.
 
 ## 1.2.0 — sync to pstack 0.15.0
 

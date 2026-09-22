@@ -15,14 +15,6 @@
       "slug": "claude-opus-5"
     },
     {
-      "label": "Opus 4.8",
-      "slug": "claude-opus-4-8"
-    },
-    {
-      "label": "Opus 4.6",
-      "slug": "claude-opus-4-6"
-    },
-    {
       "label": "Fable 5.1",
       "slug": "claude-fable-5-1"
     },
@@ -33,10 +25,6 @@
     {
       "label": "Sonnet 5",
       "slug": "claude-sonnet-5"
-    },
-    {
-      "label": "Sonnet 4.6",
-      "slug": "claude-sonnet-4-6"
     }
   ],
   "roles": [
