@@ -147,9 +147,9 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 
 Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.
 
-- feature, refactoring: `claude-opus-5`
-- bug-fix: `claude-fable-5`
-- perf-issue: `claude-fable-5`
-- hillclimb: `claude-fable-5`
-- judgment and prose: `claude-opus-5`
-- strongest judgment: `claude-fable-5`
+- feature, refactoring: `claude-opus-5-5`
+- bug-fix: `claude-fable-5-1`
+- perf-issue: `claude-fable-5-1`
+- hillclimb: `claude-fable-5-1`
+- judgment and prose: `claude-opus-5-5`
+- strongest judgment: `claude-fable-5-1`

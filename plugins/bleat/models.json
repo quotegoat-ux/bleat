@@ -1,22 +1,22 @@
 {
-  "singleRoleDefault": "claude-opus-5",
+  "singleRoleDefault": "claude-opus-5-5",
   "panel": [
-    "claude-opus-5",
-    "claude-fable-5",
+    "claude-opus-5-5",
+    "claude-fable-5-1",
     "claude-sonnet-5"
   ],
   "available": [
+    {
+      "label": "Opus 5.5",
+      "slug": "claude-opus-5-5"
+    },
     {
       "label": "Opus 5",
       "slug": "claude-opus-5"
     },
     {
-      "label": "Opus 4.8",
-      "slug": "claude-opus-4-8"
-    },
-    {
-      "label": "Opus 4.6",
-      "slug": "claude-opus-4-6"
+      "label": "Fable 5.1",
+      "slug": "claude-fable-5-1"
     },
     {
       "label": "Fable 5",
@@ -25,102 +25,98 @@
     {
       "label": "Sonnet 5",
       "slug": "claude-sonnet-5"
-    },
-    {
-      "label": "Sonnet 4.6",
-      "slug": "claude-sonnet-4-6"
     }
   ],
   "roles": [
     {
       "role": "feature, refactoring",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "bug-fix",
       "models": [
-        "claude-fable-5"
+        "claude-fable-5-1"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "perf-issue",
       "models": [
-        "claude-fable-5"
+        "claude-fable-5-1"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "hillclimb",
       "models": [
-        "claude-fable-5"
+        "claude-fable-5-1"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "judgment and prose",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "strongest judgment",
       "models": [
-        "claude-fable-5"
+        "claude-fable-5-1"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "how explorer",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "how"
     },
     {
       "role": "how explainer",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "how"
     },
     {
       "role": "why investigators",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "why"
     },
     {
       "role": "why synthesizer",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "why"
     },
     {
       "role": "reflect tooling",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "reflect"
     },
     {
       "role": "reflect judgment, divergent, synthesizer",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "reflect"
     },
     {
       "role": "arena runners",
       "models": [
-        "claude-opus-5",
-        "claude-fable-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
         "claude-sonnet-5"
       ],
       "skill": "arena"
@@ -128,8 +124,8 @@
     {
       "role": "arena cross-judge pool",
       "models": [
-        "claude-opus-5",
-        "claude-fable-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
         "claude-sonnet-5"
       ],
       "skill": "arena"
@@ -137,15 +133,15 @@
     {
       "role": "swarm workers",
       "models": [
-        "claude-opus-5"
+        "claude-opus-5-5"
       ],
       "skill": "swarm"
     },
     {
       "role": "architect runners",
       "models": [
-        "claude-opus-5",
-        "claude-fable-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
         "claude-sonnet-5"
       ],
       "skill": "architect"
@@ -153,8 +149,8 @@
     {
       "role": "interrogate reviewers",
       "models": [
-        "claude-opus-5",
-        "claude-fable-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
         "claude-sonnet-5"
       ],
       "skill": "interrogate"

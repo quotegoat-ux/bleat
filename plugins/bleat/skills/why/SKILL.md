@@ -161,5 +161,5 @@ After the Sources Consulted block, if the user's `why` question is a precursor t
 
 Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.
 
-- why investigators: `claude-opus-5`
-- why synthesizer: `claude-opus-5`
+- why investigators: `claude-opus-5-5`
+- why synthesizer: `claude-opus-5-5`
