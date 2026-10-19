@@ -2,6 +2,20 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.3.0 — sync to pstack 0.15.28
+
+Catches the port up with `cursor/plugins` from `f8abedd` (0.15.0) to `d457567` (0.15.28), 62 upstream commits touching `pstack/`. `cursor-team-kit` had no changes in the window. The sibling Claude Code port `michael-denyer/pstack-claude` (synced to `7b353f7`, 0.15.27) served as a reference for how each new Cursor primitive translates; none of its Pi, Copilot, or worker-tier additions came across.
+
+**New skills.** `bleat-help` (upstream `poteto-help`), `ketchup`, `sharpen`, `in-your-own-words`, `correct`, `benchmark-checklist`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, and the principle leaf `principle-explain-the-number`. Upstream ships each with `disable-model-invocation: true`; per the port convention the user-invocable ones drop it and gain a `menu-description:`, and the principle leaf carries `user-invocable: false`. `bleat-help` is rewritten for bleat's install path, hooks, and override sheet. `ketchup` renders charts from data instead of Cursor's `/visualize`. `/setup-bleat` now asks for a reasoning budget, which sets the starting `effort` on `Agent` calls, and offers to generate both a verification skill and a formal verification skill.
+
+**Mechanical sync.** `sync.mjs` wrote 20 clean updates and 25 clean three-way merges. 44 files carrying 90 overlapping hunks, plus `bun.lock`, were merged editorially under one rule set: take upstream's content (density passes, cut sections, new routes, the `/loop 1h` autopilot tick, subagent effort matching, upstream's model-fallback paragraphs) and keep the port's Claude Code translations (`Agent` and `general-purpose`, no `readonly`, `plugin-dev:skill-development`, `run`/`verify`, `~/.claude/` paths, `~/.claude/bleat-models.md`, role references instead of inline slugs, every Platform note).
+
+**What the editorial merge refused.** Grok and Sol model defaults and the `grok-*`/`composer-*` slug-family fallbacks (models stay single-sourced in `models.json`). Upstream's per-spawn "fast or standard speed" choice, which Claude Code's `Agent` tool does not offer. Origin forge text that re-entered `shipping`, `orchestrate`, `opening-a-pr`, and the guide. Cursor's built-in PR tool, Custom Modes, cloud subagents, Cursor Projects, `/make-bot-ui`, and the benny automations in the guide, which now describe local worktree subagents and bleat's hooks. Shipping and Autopilot-stack keep Graphite merge-when-ready, and both autopilots keep the operator clicking every merge.
+
+**Graphite leaves orchestrate.** Upstream rebuilt `orch` around the PR base chain from `gh` (`ce649c0`). The port's own `gt info` and `gt log` parsing fixes went with the code they patched, along with their two tests.
+
+**Sync tooling.** `tools/substitutions.json` maps `poteto-help` to `bleat-help` and `Poteto help` to `Bleat help`. `tools/upstream.json` excludes upstream's root `plugin.json` (Cursor's Agent Plugins manifest) and `docs/harness/` (upstream's own Claude Code adapter notes, which this port supersedes). [UPSTREAM.md](UPSTREAM.md) records the sync points and the procedure.
+
 ## 1.2.1 — move model defaults to Opus 5.5 and Fable 5.1
 
 `plugins/bleat/models.json` now points every default at the current Claude family heads. Each role that named `claude-opus-5` now names `claude-opus-5-5`, and each role that named `claude-fable-5` now names `claude-fable-5-1`. That covers the single-role default, the diverse panel, and every stamped `## Models` section. `claude-sonnet-5` stays as the panel's third seat because no newer Sonnet exists. The available list gains Opus 5.5 and Fable 5.1 ahead of their predecessors, Opus 5 and Fable 5, which stay listed so a user can still pin them in `~/.claude/bleat-models.md`. The 4.x generation (Opus 4.8, Opus 4.6, Sonnet 4.6) leaves the list, since no default has named any of them since 0.9.15. Haiku stays off the list per the 1.0.0 team policy.

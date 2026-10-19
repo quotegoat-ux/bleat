@@ -1,6 +1,6 @@
 ---
 name: setup-bleat
-description: configure bleat per-role model choices
+description: configure bleat per-role model choices and reasoning budget
 disable-model-invocation: true
 ---
 
