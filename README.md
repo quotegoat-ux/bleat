@@ -1,6 +1,6 @@
 # bleat
 
-Quote Goat's agent-workflow toolkit for Claude Code. bleat turns a capable agent into a disciplined one: every nontrivial task starts with a todolist and a matched playbook, the work is grounded in twenty-one engineering principles, delegation is deliberate, prose carries no AI tells, and nothing counts as done until it is proven against the real artifact.
+Quote Goat's agent-workflow toolkit for Claude Code. bleat turns a capable agent into a disciplined one: every nontrivial task starts with a todolist and a matched playbook, the work is grounded in twenty-four engineering principles, delegation is deliberate, prose carries no AI tells, and nothing counts as done until it is proven against the real artifact.
 
 > if you want to go fast, go deep first. bleat helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.
 
@@ -22,6 +22,7 @@ The skill-authoring routes work best with the `plugin-dev` plugin installed (`/p
 - `/just-bleat-it` turns the mode on for the current session.
 - `/bleat-off` turns it off.
 - `/setup-bleat` maps each role (code, judgment, the review panels) to the models you actually have.
+- `/bleat-help` answers how to set up bleat or which skill, playbook, or principle fits a task.
 
 For a guided tour, read [the guide](plugins/bleat/docs/guide/README.md).
 
@@ -49,7 +50,7 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | `/show-me-your-work` | log decisions to a reviewable tsv decision trail |
 | `/blast-radius` | find what a change could break beyond the diff and prove safety by running code |
 | `/recall` | catch up on recent working context from chat history, live state, and the shared record |
-| `/setup-bleat` | configure bleat per-role model choices |
+| `/setup-bleat` | configure bleat per-role model choices and reasoning budget |
 | `/unslop` | clean up writing by removing AI tells |
 | `/no-comments` | strip comments before review, fix the accepted findings, encode claimed constraints |
 | `/create-verification-skill` | generate a project-local verification skill and feature map |
@@ -62,6 +63,14 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | `/fix-merge-conflicts` | non-interactively resolve merge conflicts, validate, finalize |
 | `/get-pr-comments` | fetch and summarize review comments from the active PR |
 | `/what-did-i-get-done` | summarize authored commits over a user-chosen period |
+| `/bleat-help` | ask how to set up bleat or which skill, playbook, or principle fits a task |
+| `/ketchup` | catch up on what changed since your last message, with visuals |
+| `/sharpen` | sharpen a task before starting: expert approach, real goal, right spec |
+| `/in-your-own-words` | play back the goal and the problem before work starts |
+| `/correct` | make the mistakes agents keep repeating in this repo impossible |
+| `/benchmark-checklist` | vet a perf measurement before you report or act on it |
+| `/create-formal-verification-skill` | generate a project-local formal verification skill for the riskiest code |
+| `/maintain-formal-verification-skill` | bring formal verification back in line with changed code |
 
 ## Subagents
 

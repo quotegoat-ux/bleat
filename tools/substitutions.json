@@ -71,6 +71,11 @@
       "rationale": "bleat rebrand, capitalized prose spelling"
     },
     {
+      "pattern": "Poteto help",
+      "replacement": "Bleat help",
+      "rationale": "bleat rebrand, the help skill's heading"
+    },
+    {
       "pattern": "setup-pstack",
       "replacement": "setup-bleat",
       "rationale": "bleat rebrand; must run before the bare pstack rule"

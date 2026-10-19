@@ -248,6 +248,9 @@ const README_COMMAND_ORDER = [
   "create-verification-skill", "maintain-verification-skill", "deslop",
   "babysit", "thermo-nuclear-code-quality-review", "make-pr-easy-to-review",
   "fix-ci", "fix-merge-conflicts", "get-pr-comments", "what-did-i-get-done",
+  "bleat-help", "ketchup", "sharpen", "in-your-own-words", "correct",
+  "benchmark-checklist", "create-formal-verification-skill",
+  "maintain-formal-verification-skill",
 ];
 
 export function renderReadmeTable(readme, skills) {
