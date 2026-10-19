@@ -127,7 +127,7 @@ Principles are one-rule skills that `/just-bleat-it` reads and cites in its repl
 |---|---|
 | The mode stopped applying after a few turns | Check that `hooks/hooks.json` is still in the installed plugin, or run `/just-bleat-it` again. `/bleat-off` turns it off on purpose. |
 | A question got treated as the next step of the last task | Say "new task", or say the turn doesn't need the mode. |
-| A new model choice had no effect | Check that CLAUDE.md imports `~/.claude/bleat-models.md`, then start a new session so it loads. |
+| A new model choice had no effect | Check that CLAUDE.md has the `@~/.claude/bleat-models.md` line, then start a new session so it loads. |
 | Runs cost more than expected | See the cost paragraph under Get set up. |
 | A skill didn't load on its own | Skills load when the user types them, when their description matches, or when `/just-bleat-it` runs them, and it doesn't run every skill. Invoke it explicitly. |
 | Parallel agents overwrote each other | Give each agent its own worktree. |
