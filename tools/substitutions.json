@@ -76,6 +76,11 @@
       "rationale": "bleat rebrand; must run before the bare pstack rule"
     },
     {
+      "pattern": "poteto-help",
+      "replacement": "bleat-help",
+      "rationale": "bleat rebrand for the typed-only help skill"
+    },
+    {
       "pattern": "poteto-off",
       "replacement": "bleat-off",
       "rationale": "bleat rebrand for the mode-exit command"
