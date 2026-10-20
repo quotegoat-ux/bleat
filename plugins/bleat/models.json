@@ -3,7 +3,7 @@
   "panel": [
     "claude-opus-5-5",
     "claude-fable-5-1",
-    "claude-sonnet-5"
+    "claude-sonnet-5-5"
   ],
   "available": [
     {
@@ -23,6 +23,10 @@
       "slug": "claude-fable-5"
     },
     {
+      "label": "Sonnet 5.5",
+      "slug": "claude-sonnet-5-5"
+    },
+    {
       "label": "Sonnet 5",
       "slug": "claude-sonnet-5"
     }
@@ -38,21 +42,21 @@
     {
       "role": "bug-fix",
       "models": [
-        "claude-fable-5-1"
+        "claude-opus-5-5"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "perf-issue",
       "models": [
-        "claude-fable-5-1"
+        "claude-opus-5-5"
       ],
       "skill": "just-bleat-it"
     },
     {
       "role": "hillclimb",
       "models": [
-        "claude-fable-5-1"
+        "claude-opus-5-5"
       ],
       "skill": "just-bleat-it"
     },
@@ -117,7 +121,7 @@
       "models": [
         "claude-opus-5-5",
         "claude-fable-5-1",
-        "claude-sonnet-5"
+        "claude-sonnet-5-5"
       ],
       "skill": "arena"
     },
@@ -126,7 +130,7 @@
       "models": [
         "claude-opus-5-5",
         "claude-fable-5-1",
-        "claude-sonnet-5"
+        "claude-sonnet-5-5"
       ],
       "skill": "arena"
     },
@@ -142,7 +146,7 @@
       "models": [
         "claude-opus-5-5",
         "claude-fable-5-1",
-        "claude-sonnet-5"
+        "claude-sonnet-5-5"
       ],
       "skill": "architect"
     },
@@ -151,7 +155,7 @@
       "models": [
         "claude-opus-5-5",
         "claude-fable-5-1",
-        "claude-sonnet-5"
+        "claude-sonnet-5-5"
       ],
       "skill": "interrogate"
     }

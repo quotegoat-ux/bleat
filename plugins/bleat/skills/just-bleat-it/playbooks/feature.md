@@ -14,7 +14,8 @@
 6. Rebase into small, ordered commits. Stack follow-ups.
    Use the **sequence-verifiable-units** principle skill, building, verifying, and committing each small unit before the next.
 7. If the design is contested, `interrogate` before shipping.
-8. Run **Opening a PR**.
+8. If the change alters a response shape, an exported signature, or a shared helper, run **blast-radius** on it. Include callers in other repositories, such as an API's clients or an MCP server that wraps it.
+9. Run **Opening a PR**.
 
 Code-coupled work (one feature, one migration) goes to a single owner with the checkpoint inline. That owner fans out internally after the blocking phase. Parent-level fan-out is for slices that produce independent artifacts (audits, cross-subsystem investigations, competing experiments). Rewrite the checkpoint at phase boundaries. Spawn a fresh owner rather than chaining interrupts.
 

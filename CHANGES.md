@@ -2,6 +2,16 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.4.0 — Opus 5.5 as the default workhorse, and three review-driven checks
+
+**Models.** `plugins/bleat/models.json` moves the bug-fix, perf-issue, and hillclimb roles from `claude-fable-5-1` to `claude-opus-5-5`. Opus 5.5 is now the default for every single-model role except "strongest judgment", which stays on Fable 5.1 as a second opinion. Fable 5.1 also keeps its seat on the arena, architect, and interrogate panels. The third panel seat moves from `claude-sonnet-5` to `claude-sonnet-5-5`, released on 2026-09-28. This replaces the 1.2.1 note that no newer Sonnet existed. Sonnet 5 stays in the available list so a user can still pin it in `~/.claude/bleat-models.md`.
+
+**Review-driven checks.** These come from reviewer findings on Claude-authored Quote Goat PRs opened since 2026-09-22. They are port-local edits to upstream-owned skill content. Keep them through the next sync.
+
+- `just-bleat-it/playbooks/opening-a-pr.md` and `make-pr-easy-to-review`: read a linked issue and check each acceptance criterion before writing `Closes #N`. If a criterion is unmet, write `Refs #N` and list it.
+- `just-bleat-it/playbooks/bug-fix.md` and `feature.md`: run `blast-radius` when a change alters a response shape, an exported signature, or a shared helper. Include callers in other repositories, and fix sibling copies of a bug in the same PR.
+- `agents/comment-sicko.md`: read the comments, docstrings, and user-facing strings beside each changed hunk. Kill a comment the diff made false, even if the diff did not write it, and flag a user-facing string that now lies.
+
 ## 1.3.0 — sync to pstack 0.15.28
 
 Catches the port up with `cursor/plugins` from `f8abedd` (0.15.0) to `d457567` (0.15.28), 62 upstream commits touching `pstack/`. `cursor-team-kit` had no changes in the window. The sibling Claude Code port `michael-denyer/pstack-claude` (synced to `7b353f7`, 0.15.27) served as a reference for how each new Cursor primitive translates; none of its Pi, Copilot, or worker-tier additions came across.
