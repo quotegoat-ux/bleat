@@ -19,6 +19,8 @@ Invoked at the end of every other playbook.
 - `## Blast Radius`: 1–2 sentences on who or what it touches and why that is safe or risky. If main is red, state the cost of leaving it red.
 - `## Verification`: 1–3 bullets, each a real run path and its outcome. Perf: one primary number with its unit, `before → after`, and a link to the arena or swarm directory for the rest. No sample-size methodology, swarm recitals, or metric tables.
 
+**Linked issues.** Before you write `Closes #N` or `Fixes #N`, read the issue and check each acceptance criterion against the diff. Write `Closes` only when every criterion is met. Otherwise write `Refs #N` and list the unmet criteria under `## Scope`.
+
 After the sections, attach videos or screenshots when they prove a claim. Full SHAs, swarm or arena lane recitals, lever-correction essays, file-by-file checklists, and "CLEAN" verdicts go in a linked artifact, not the body.
 
 **Size and stacks.** Prefer five narrow PRs to one large PR. Stack follow-ups with Graphite (`gt`) or whatever stacking tool your team uses, and keep the ordered stack visible to reviewers. Branch from main only for independent work. Rebase on `main` before substantial stack work.
