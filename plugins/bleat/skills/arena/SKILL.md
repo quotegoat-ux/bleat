@@ -53,5 +53,5 @@ One synthesized artifact, with a short synthesis note alongside naming the base 
 
 Role defaults, stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`). A matching role line in `~/.claude/bleat-models.md` overrides each at runtime; see `/setup-bleat`.
 
-- arena runners: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5`
-- arena cross-judge pool: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5`
+- arena runners: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5-5`
+- arena cross-judge pool: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5-5`

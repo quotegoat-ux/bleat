@@ -32,7 +32,7 @@ Launch all reviewers in a single message with the `Agent` tool, one per entry on
 |----------|---------------|
 | Reviewer A | `claude-opus-5-5` |
 | Reviewer B | `claude-fable-5-1` |
-| Reviewer C | `claude-sonnet-5` |
+| Reviewer C | `claude-sonnet-5-5` |
 
 Each reviewer gets `subagent_type: "general-purpose"` and `model` set to its configured entry, or its table default when there is no configured line. Omit `model` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent session's model.
 

@@ -55,9 +55,9 @@ Write `~/.claude/bleat-models.md` with the shape below. Overwrite the whole file
 Per-role model overrides for bleat skills. Each bleat SKILL.md names its defaults in a Models section; the values here override those defaults. Delete a line to fall back to the skill default. A value of `inherit-parent` or `auto` runs that role on the parent session's model (the `Agent` call omits `model`); an alias entry in a panel list still counts toward that panel's fan-out.
 
 feature, refactoring: claude-opus-5-5
-bug-fix: claude-fable-5-1
-perf-issue: claude-fable-5-1
-hillclimb: claude-fable-5-1
+bug-fix: claude-opus-5-5
+perf-issue: claude-opus-5-5
+hillclimb: claude-opus-5-5
 judgment and prose: claude-opus-5-5
 strongest judgment: claude-fable-5-1
 how explorer: claude-opus-5-5
@@ -66,11 +66,11 @@ why investigators: claude-opus-5-5
 why synthesizer: claude-opus-5-5
 reflect tooling: claude-opus-5-5
 reflect judgment, divergent, synthesizer: claude-opus-5-5
-arena runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5
-arena cross-judge pool: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5
+arena runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
+arena cross-judge pool: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
 swarm workers: claude-opus-5-5
-architect runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5
-interrogate reviewers: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5
+architect runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
+interrogate reviewers: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
 ```
 
 After the role lines, add one last line with the chosen budget label and its starting effort, such as `# budget: large (xhigh)`.
@@ -95,6 +95,6 @@ Check whether the project already has a formal verification skill (a project ski
 
 Stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`).
 
-- Available Claude models: Opus 5.5 (`claude-opus-5-5`), Opus 5 (`claude-opus-5`), Fable 5.1 (`claude-fable-5-1`), Fable 5 (`claude-fable-5`), Sonnet 5 (`claude-sonnet-5`)
-- Default panel: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5`
+- Available Claude models: Opus 5.5 (`claude-opus-5-5`), Opus 5 (`claude-opus-5`), Fable 5.1 (`claude-fable-5-1`), Fable 5 (`claude-fable-5`), Sonnet 5.5 (`claude-sonnet-5-5`), Sonnet 5 (`claude-sonnet-5`)
+- Default panel: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5-5`
 - Single-role default: `claude-opus-5-5`
