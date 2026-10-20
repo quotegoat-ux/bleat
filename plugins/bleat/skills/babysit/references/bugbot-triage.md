@@ -1,6 +1,6 @@
 # Bugbot triage
 
-Use this reference when the `babysit` skill (`../SKILL.md`) handles Bugbot or review-automation comments. The goal is not to ignore Bugbot by default. The goal is to stop treating every comment as a required code change.
+Use this reference when the `babysit` skill (`../SKILL.md`) handles Bugbot or review-automation comments. The same rubric applies to any review bot, such as Devin or an AI code review. The goal is not to ignore Bugbot by default. The goal is to stop treating every comment as a required code change.
 
 ## Decision rubric
 
@@ -156,3 +156,19 @@ Append new candidate learnings here during or after babysitting when they look t
 - Do not skip when: The diff writes, deletes, or bills from a request body field or an external event. Before calling the PR done, trace one input that names another tenant's or another subscription's object and confirm the code refuses it.
 - Example signal: `fileKey: body.fileKey` stored and later passed to a delete; a webhook handler that resolves the org from a shared customer and applies the event without comparing its subscription id with the stored one.
 - Source: Quote Goat core bugs #4052 and #4057 (and #4051, found later by a human). Devin reviewed the PRs that caused #4052 and #4057 and flagged neither.
+
+### A bot's suggested code is a claim too
+
+- Confidence: candidate
+- Skip when: Never skip the check. Before applying a review bot's suggested replacement (a regex, a validation rule, a query), test it against the real inputs the code sees, including the edge cases the original handled.
+- Do not skip when: n/a. A suggestion merged as written is the bot's code shipping without a test.
+- Example signal: A suggested input pattern that looks stricter and cleaner but rejects a valid real-world format the old code accepted.
+- Source: a validation PR where the bot's suggested pattern was merged verbatim and rejected a valid postal code format on stage.
+
+### A fix for a bot's duplicate-data warning must handle existing rows
+
+- Confidence: candidate
+- Skip when: Never skip. When a bot warns that duplicates are possible and the fix adds a unique index or constraint, existing data may already hold duplicates.
+- Do not skip when: n/a. Clean or merge the existing duplicates in the same migration, or the deploy fails on the first database that has them.
+- Example signal: "Duplicate rows possible here" answered with a new `UNIQUE` index and no backfill.
+- Source: a batch-clone PR whose new unique index failed the stage deploy on duplicate rows the old code had already written.

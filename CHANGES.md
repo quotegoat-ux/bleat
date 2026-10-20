@@ -2,6 +2,14 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.6.0 — principles and triage notes from Quote Goat's stage bugs
+
+Port-specific: these come from tracing Quote Goat's stage bugs to the changes that caused them, not from upstream. Keep them on the next sync.
+
+**Two principle leaves.** `principle-test-against-real-shapes`: run tests, seeds and migrations on the data shapes production holds (old rows, missing settings, several tenants, rows other clients wrote), because most bugs that reached stage lived in shapes the clean fixture lacked. `principle-enforce-where-it-is-stored`: the store enforces its rules for every writer, because rows written by an agent's tool broke rules the web app had been enforcing on its own. Both carry `user-invocable: false` and are listed in `just-bleat-it`, the README and the principles guide.
+
+**Review-bot triage.** `babysit/references/bugbot-triage.md` now says its rubric covers any review bot, and gains two candidate learnings: test a bot's suggested code before merging it, and give a unique index that answers a duplicate warning a cleanup of existing rows. Two stage bugs came from bot suggestions merged as written.
+
 ## 1.5.0 — lessons from a week of Quote Goat core bugs
 
 These come from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-13 and 2026-10-20, traced to the change that caused each one. They are port-specific additions to upstream-owned skill content. Keep them through the next sync.

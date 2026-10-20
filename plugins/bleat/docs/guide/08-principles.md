@@ -1,6 +1,6 @@
 # Steer with principle names
 
-bleat ships 24 principles as individual skills. `/just-bleat-it` reads their index at the start of every multi-step task, applies the ones the task triggers, and names each applied principle in its reply along with the decision it changed.
+bleat ships 26 principles as individual skills. `/just-bleat-it` reads their index at the start of every multi-step task, applies the ones the task triggers, and names each applied principle in its reply along with the decision it changed.
 
 You don't invoke principles. You use their names to steer. Each name points at a complete rule the agent has already read, so one phrase redirects the work more precisely than a paragraph of instructions.
 
@@ -45,6 +45,7 @@ The architecture principles decide where state, validation, and compatibility li
 
 - [Model the Domain](../../skills/principle-model-the-domain/SKILL.md) encodes repeated rules in one structure, not scattered conditionals.
 - [Boundary Discipline](../../skills/principle-boundary-discipline/SKILL.md) validates at the boundary and trusts internal types.
+- [Enforce Where It Is Stored](../../skills/principle-enforce-where-it-is-stored/SKILL.md) puts a rule where the data is stored, so every client that writes it passes through the same check.
 - [Type System Discipline](../../skills/principle-type-system-discipline/SKILL.md) makes illegal states unrepresentable.
 - [Make Operations Idempotent](../../skills/principle-make-operations-idempotent/SKILL.md) converges retries on the same end state.
 - [Migrate Callers Then Delete Legacy APIs](../../skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md) migrates and deletes in one wave.
@@ -57,6 +58,7 @@ The verification principles define what counts as proof:
 - [Sequence Work into Verifiable Units](../../skills/principle-sequence-verifiable-units/SKILL.md) ends each small unit in a check before starting the next.
 - [Test Behavior, Not Implementation](../../skills/principle-test-behavior-not-implementation/SKILL.md) asserts what the code's users can observe, so a test fails when that behavior breaks and survives a change to the internals.
 - [Explain the Number](../../skills/principle-explain-the-number/SKILL.md) names what limits a measured number and rules out that it measured something else, before anyone trusts or reports it. [`/benchmark-checklist`](../../skills/benchmark-checklist/SKILL.md) turns it into seven questions you answer from real runs.
+- [Test Against Real Shapes](../../skills/principle-test-against-real-shapes/SKILL.md) runs tests, seeds and migrations on the data shapes production holds, not only the clean fixture.
 
 The delegation principles keep parallel work sane:
 
