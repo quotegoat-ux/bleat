@@ -19,6 +19,14 @@ Reach for:
 - A queue, cache, index, graph, tree, or normalized collection where the access pattern calls for it.
 - Any other structure that fits. When none fits, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.
 
+State held in a client (a store, a grid, router state, a query cache) has a lifecycle. Write down what ends or reloads it before you write the code that reads it:
+
+- Which copy does a write reach? When a grid row and a store hold the same data, name the one the save reads, and test the write against it.
+- What happens to pending edits when the user navigates away, refreshes, or closes the tab?
+- What re-syncs it on a new history entry, a redirect, or a remount, when the ids stay the same?
+- Does a mounted but hidden view still fetch, refetch on focus, or react to invalidation?
+- What refetches after a write, what is left after a partial failure, and which writes can race?
+
 Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
 
 The sign that you skipped this is a new feature that grows an existing if/else chain by one more branch, or a second boolean that must stay in sync with the first. Temporal decomposition is another sign. Phase-named modules repeat the same domain rules across steps.

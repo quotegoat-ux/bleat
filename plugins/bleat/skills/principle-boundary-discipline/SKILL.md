@@ -22,6 +22,7 @@ Validation and error handling:
 - Parse raw data into domain types at the boundary
 - Do not re-export transport, storage, framework, or wire types through the public surface
 - No redundant nil checks deep in call chains if the boundary already validated
+- A reference from outside (an id, a storage key, a webhook event's object id) is input to validate, not a fact. Check it resolves to a row the caller owns before you act on it, and read derived values such as a storage key from that row, never from the request. Destructive effects (deleting an object, resetting a subscription) need this most, because nothing downstream undoes them.
 
 Code organization:
 - Business logic in pure functions with no framework dependencies
