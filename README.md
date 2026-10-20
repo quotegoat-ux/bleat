@@ -1,6 +1,6 @@
 # bleat
 
-Quote Goat's agent-workflow toolkit for Claude Code. bleat turns a capable agent into a disciplined one: every nontrivial task starts with a todolist and a matched playbook, the work is grounded in twenty-four engineering principles, delegation is deliberate, prose carries no AI tells, and nothing counts as done until it is proven against the real artifact.
+Quote Goat's agent-workflow toolkit for Claude Code. bleat turns a capable agent into a disciplined one: every nontrivial task starts with a todolist and a matched playbook, the work is grounded in twenty-six engineering principles, delegation is deliberate, prose carries no AI tells, and nothing counts as done until it is proven against the real artifact.
 
 > if you want to go fast, go deep first. bleat helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.
 

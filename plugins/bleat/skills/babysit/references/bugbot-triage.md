@@ -141,6 +141,22 @@ Append new candidate learnings here during or after babysitting when they look t
 - Source: one CLI-rename PR whose fallback existed for a missing binary rather
   than a failed command.
 
+### A finding that ships a repro is not a design trade-off
+
+- Confidence: candidate
+- Skip when: Never on the reviewer's word alone. When a review bot gives a concrete repro (a navigation sequence, an event order, a failing input) and the owner wants to keep the code as a "deliberate trade-off", run the repro first. Keep the code only when the run shows the case cannot happen or the cost is stated in the PR and accepted by a human.
+- Do not skip when: The finding concerns state that only re-syncs on some changes (effect dependencies, refs that hide live values, cache keys), history or redirect handling, or data the user loses silently. Default to fix and add the reviewer's suggested test.
+- Example signal: "stops self-healing when only the history entry changes", "use the live values as dependencies", with a suggested test, answered by keeping the narrower dependency list.
+- Source: Quote Goat core: a breadcrumb hook's Devin finding was kept as a trade-off and reopened as bug #3917 three months later.
+
+### Review bots miss ownership checks on caller-supplied references
+
+- Confidence: candidate
+- Skip when: n/a. This is a gap to check yourself, not a dismissal pattern. A clean review-bot pass says nothing about whether an id, storage key, or webhook object the caller sent belongs to the record it acts on.
+- Do not skip when: The diff writes, deletes, or bills from a request body field or an external event. Before calling the PR done, trace one input that names another tenant's or another subscription's object and confirm the code refuses it.
+- Example signal: `fileKey: body.fileKey` stored and later passed to a delete; a webhook handler that resolves the org from a shared customer and applies the event without comparing its subscription id with the stored one.
+- Source: Quote Goat core bugs #4052 and #4057 (and #4051, found later by a human). Devin reviewed the PRs that caused #4052 and #4057 and flagged neither.
+
 ### A bot's suggested code is a claim too
 
 - Confidence: candidate

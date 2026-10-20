@@ -209,10 +209,10 @@ bleat also ships [Comment Sicko](./agents/comment-sicko.md), a read-only comment
 
 ## principles
 
-twenty-four short skills, one principle each. `just-bleat-it` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
+twenty-six short skills, one principle each. `just-bleat-it` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
 
 <details>
-<summary>all twenty-four principles</summary>
+<summary>all twenty-six principles</summary>
 
 | principle | group | rule |
 |---|---|---|

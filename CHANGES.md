@@ -2,13 +2,31 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
-## 1.4.0 — principles and triage notes from Quote Goat's stage bugs
+## 1.6.0 — principles and triage notes from Quote Goat's stage bugs
 
 Port-specific: these come from tracing Quote Goat's stage bugs to the changes that caused them, not from upstream. Keep them on the next sync.
 
 **Two principle leaves.** `principle-test-against-real-shapes`: run tests, seeds and migrations on the data shapes production holds (old rows, missing settings, several tenants, rows other clients wrote), because most bugs that reached stage lived in shapes the clean fixture lacked. `principle-enforce-where-it-is-stored`: the store enforces its rules for every writer, because rows written by an agent's tool broke rules the web app had been enforcing on its own. Both carry `user-invocable: false` and are listed in `just-bleat-it`, the README and the principles guide.
 
 **Review-bot triage.** `babysit/references/bugbot-triage.md` now says its rubric covers any review bot, and gains two candidate learnings: test a bot's suggested code before merging it, and give a unique index that answers a duplicate warning a cleanup of existing rows. Two stage bugs came from bot suggestions merged as written.
+
+## 1.5.0 — lessons from a week of Quote Goat core bugs
+
+These come from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-13 and 2026-10-20, traced to the change that caused each one. They are port-specific additions to upstream-owned skill content. Keep them through the next sync.
+
+- `principle-boundary-discipline`: one added bullet. An id, storage key, or webhook object id from outside is input to validate: check it resolves to a row the caller owns, and read derived values such as a storage key from that row. Bugs #4057 (a task attachment deleted whatever S3 key the request sent), #4052 (a webhook reset an org for a subscription that was not the org's), and #4051 (a folder anchored to an id that does not exist).
+- `principle-model-the-domain`: a client-state checklist (which copy a write reaches, pending edits on navigation, re-sync on a new history entry, hidden views that still fetch, refetch, partial failure, and races). Bugs #4059 (resources sent to a create call that drops them), #3917 (breadcrumb not re-synced on a new history entry), #3958 (a hidden tab fetching its dataset on every page load), and #3143 (unsaved edits lost on navigation), plus the store findings on #3747, #3775 and #3934 from the PR-review pass behind 1.4.0.
+- `babysit/references/bugbot-triage.md`: two candidate learnings. A review-bot finding that ships a repro is run before it is kept as a trade-off (#3917 was flagged by Devin and dismissed). Review bots miss ownership checks on caller-supplied references (#4052, #4057).
+
+## 1.4.0 — Opus 5.5 as the default workhorse, and three review-driven checks
+
+**Models.** `plugins/bleat/models.json` moves the bug-fix, perf-issue, and hillclimb roles from `claude-fable-5-1` to `claude-opus-5-5`. Opus 5.5 is now the default for every single-model role except "strongest judgment", which stays on Fable 5.1 as a second opinion. Fable 5.1 also keeps its seat on the arena, architect, and interrogate panels. The third panel seat moves from `claude-sonnet-5` to `claude-sonnet-5-5`, released on 2026-09-28. This replaces the 1.2.1 note that no newer Sonnet existed. Sonnet 5 stays in the available list so a user can still pin it in `~/.claude/bleat-models.md`.
+
+**Review-driven checks.** These come from reviewer findings on Claude-authored Quote Goat PRs opened since 2026-09-22. They are port-local edits to upstream-owned skill content. Keep them through the next sync.
+
+- `just-bleat-it/playbooks/opening-a-pr.md` and `make-pr-easy-to-review`: read a linked issue and check each acceptance criterion before writing `Closes #N`. If a criterion is unmet, write `Refs #N` and list it.
+- `just-bleat-it/playbooks/bug-fix.md` and `feature.md`: run `blast-radius` when a change alters a response shape, an exported signature, or a shared helper. Include callers in other repositories, and fix sibling copies of a bug in the same PR.
+- `agents/comment-sicko.md`: read the comments, docstrings, and user-facing strings beside each changed hunk. Kill a comment the diff made false, even if the diff did not write it, and flag a user-facing string that now lies.
 
 ## 1.3.0 — sync to pstack 0.15.28
 
