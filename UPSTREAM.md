@@ -4,7 +4,7 @@ bleat is its own skill library, built on two upstreams. This file records where 
 
 | upstream | role | last synced | version |
 | --- | --- | --- | --- |
-| [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/pstack), `pstack/` | skill content (poteto's pstack) | `d457567332aa6989e753ea289f30ea2bfbc80bc0` (2026-10-19) | 0.15.28 |
+| [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/pstack), `pstack/` | skill content (poteto's pstack) | `99b609a72323b70204eab407c622f436e858e112` (2026-10-26) | 0.15.32 |
 | [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/cursor-team-kit), `cursor-team-kit/skills/` | vendored team-kit skills | `e46364b8be46000b7df0f260550cd712afbb8d36` | — |
 | [`michael-denyer/pstack-claude`](https://github.com/michael-denyer/pstack-claude) | the Claude Code port bleat forked from at `c2ade4b`; a reference for translating new Cursor primitives | `49b68501b075ec1eb2755dd0d22fbf2492d67e97` (0.9.94, upstream `7b353f7`) | — |
 
@@ -14,6 +14,7 @@ The machine-readable pins live in [`tools/upstream.json`](tools/upstream.json), 
 
 | bleat | pstack | upstream range |
 | --- | --- | --- |
+| 1.7.0 | 0.15.32 | `d457567..99b609a` |
 | 1.3.0 | 0.15.28 | `f8abedd..d457567` |
 | 1.2.0 | 0.15.0 | `fd87869..f8abedd` |
 | 1.1.0 | 0.14.5 | `fd87869` |

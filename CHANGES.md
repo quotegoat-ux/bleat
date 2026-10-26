@@ -2,6 +2,16 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.7.0 — sync to pstack 0.15.32
+
+Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `99b609a` (0.15.32), 17 upstream commits touching `pstack/`. `cursor-team-kit` had no changes.
+
+**New skills.** `statechart` draws how a system moves between states as a Mermaid chart generated from a TLA+ model, with each bug the checker finds as a numbered path. It also turns an agreed chart into a TLA+ skeleton. Its scripts are vendored as-is, and their 150-test suite passes locally (92 tests skip without TLC and Java). `ketchup-video` gives the `/ketchup` catch-up as a short silent video of slides. Both drop upstream's `disable-model-invocation` and gain a `menu-description:`, per the port convention. `create-formal-verification-skill` now tells generated skills to read TLA+ results with `/statechart`.
+
+**Changed skills.** `/sharpen` returns to poteto's original prompt: it rewrites the task deeper, not bigger, and hands back the rewrite instead of doing the work. `reflect` never edits a skill under the plugin cache and copies it to `.claude/skills/` first. `swarm`'s report names its result table. The `orch` and `watch-pr` scripts pick up upstream fixes: prefer the active PR over branch history, tell fork heads apart, and cap polling sleeps at the deadline. `worktree-audit.sh` reads transcript mtimes with GNU `stat` and `date`, and `check-plan.mjs` recognizes matching inline code delimiters.
+
+**Mechanical sync.** `sync.mjs` wrote 7 clean updates, 27 new files and 10 clean three-way merges. 3 files with 5 overlapping hunks were merged by hand. `swarm` kept the port's Claude Code dispatch (`general-purpose`, local subagents, no Grok default). The plugin README took upstream's note that Claude Code leaves auto-update off for third-party marketplaces, pointed at the `bleat` marketplace.
+
 ## 1.6.0 — principles and triage notes from Quote Goat's stage bugs
 
 Port-specific: these come from tracing Quote Goat's stage bugs to the changes that caused them, not from upstream. Keep them on the next sync.

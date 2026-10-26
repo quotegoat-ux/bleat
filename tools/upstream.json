@@ -4,7 +4,7 @@
     "bleat": {
       "upstreamPath": "pstack",
       "localPath": "plugins/bleat",
-      "sha": "d457567332aa6989e753ea289f30ea2bfbc80bc0",
+      "sha": "99b609a72323b70204eab407c622f436e858e112",
       "exclude": [
         "automations/",
         ".cursor-plugin/",

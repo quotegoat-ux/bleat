@@ -65,12 +65,14 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | `/what-did-i-get-done` | summarize authored commits over a user-chosen period |
 | `/bleat-help` | ask how to set up bleat or which skill, playbook, or principle fits a task |
 | `/ketchup` | catch up on what changed since your last message, with visuals |
-| `/sharpen` | sharpen a task before starting: expert approach, real goal, right spec |
+| `/sharpen` | make a task deeper, not bigger, then rewrite the prompt |
 | `/in-your-own-words` | play back the goal and the problem before work starts |
 | `/correct` | make the mistakes agents keep repeating in this repo impossible |
 | `/benchmark-checklist` | vet a perf measurement before you report or act on it |
 | `/create-formal-verification-skill` | generate a project-local formal verification skill for the riskiest code |
 | `/maintain-formal-verification-skill` | bring formal verification back in line with changed code |
+| `/ketchup-video` | catch up like /ketchup, as a short silent video of slides |
+| `/statechart` | draw how a system moves between states as a model-checked statechart |
 
 ## Subagents
 

@@ -1,6 +1,6 @@
 ---
 name: sharpen
-description: sharpen a task before starting: expert approach, real goal, right spec
+description: make a task deeper, not bigger, then rewrite the prompt
 disable-model-invocation: true
 ---
 
