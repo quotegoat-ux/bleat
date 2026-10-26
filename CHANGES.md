@@ -2,6 +2,12 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.7.0 — test a new rule under every mode
+
+Port-specific: from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-19 and 2026-10-26, traced to the change that caused each one. Keep it on the next sync.
+
+`principle-test-against-real-shapes` gains one bullet and one test question: list the modes a new rule's inputs can take (each enum value, each override tier, each kind of record, the record missing the part the rule assumes) and test the rule's definition under each. Six bugs this week came from one feature on shared calculation math. Two of them are this shape: a productivity factor that worked under four of six rate types and ran backwards under the other two (#4065), and a rate rule that assumed a crew and erased the labor on a line that had none (#4066). The same shape caused earlier stage bugs: a recompute that ignored plugged lines (#3271), a fuel warning that ignored quote-level prices (#3671), an in-use mark that skipped assemblies (#3666), and a gross profit that counted tax (#3924).
+
 ## 1.6.0 — principles and triage notes from Quote Goat's stage bugs
 
 Port-specific: these come from tracing Quote Goat's stage bugs to the changes that caused them, not from upstream. Keep them on the next sync.
