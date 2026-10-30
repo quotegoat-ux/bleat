@@ -2,7 +2,7 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
-## 1.7.0 — sync to pstack 0.15.32
+## 1.8.0 — sync to pstack 0.15.32
 
 Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `99b609a` (0.15.32), 17 upstream commits touching `pstack/`. `cursor-team-kit` had no changes.
 
@@ -11,6 +11,11 @@ Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `99b609a` 
 **Changed skills.** `/sharpen` returns to poteto's original prompt: it rewrites the task deeper, not bigger, and hands back the rewrite instead of doing the work. `reflect` never edits a skill under the plugin cache and copies it to `.claude/skills/` first. `swarm`'s report names its result table. The `orch` and `watch-pr` scripts pick up upstream fixes: prefer the active PR over branch history, tell fork heads apart, and cap polling sleeps at the deadline. `worktree-audit.sh` reads transcript mtimes with GNU `stat` and `date`, and `check-plan.mjs` recognizes matching inline code delimiters.
 
 **Mechanical sync.** `sync.mjs` wrote 7 clean updates, 27 new files and 10 clean three-way merges. 3 files with 5 overlapping hunks were merged by hand. `swarm` kept the port's Claude Code dispatch (`general-purpose`, local subagents, no Grok default). The plugin README took upstream's note that Claude Code leaves auto-update off for third-party marketplaces, pointed at the `bleat` marketplace.
+## 1.7.0 — test a new rule under every mode
+
+Port-specific: from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-19 and 2026-10-26, traced to the change that caused each one. Keep it on the next sync.
+
+`principle-test-against-real-shapes` gains one bullet and one test question: list the modes a new rule's inputs can take (each enum value, each override tier, each kind of record, the record missing the part the rule assumes) and test the rule's definition under each. Six bugs this week came from one feature on shared calculation math. Two of them are this shape: a productivity factor that worked under four of six rate types and ran backwards under the other two (#4065), and a rate rule that assumed a crew and erased the labor on a line that had none (#4066). The same shape caused earlier stage bugs: a recompute that ignored plugged lines (#3271), a fuel warning that ignored quote-level prices (#3671), an in-use mark that skipped assemblies (#3666), and a gross profit that counted tax (#3924).
 
 ## 1.6.0 — principles and triage notes from Quote Goat's stage bugs
 

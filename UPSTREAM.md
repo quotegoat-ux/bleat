@@ -14,7 +14,7 @@ The machine-readable pins live in [`tools/upstream.json`](tools/upstream.json), 
 
 | bleat | pstack | upstream range |
 | --- | --- | --- |
-| 1.7.0 | 0.15.32 | `d457567..99b609a` |
+| 1.8.0 | 0.15.32 | `d457567..99b609a` |
 | 1.3.0 | 0.15.28 | `f8abedd..d457567` |
 | 1.2.0 | 0.15.0 | `fd87869..f8abedd` |
 | 1.1.0 | 0.14.5 | `fd87869` |
