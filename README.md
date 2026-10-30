@@ -37,7 +37,7 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | `/why` | investigate why something was built this way (parallel multi-MCP evidence) |
 | `/architect` | settle types and module shape before writing code that crosses a function boundary |
 | `/arena` | run N parallel attempts at the same task and pick the best parts |
-| `/interrogate` | have three different models try to break a diff |
+| `/interrogate` | have different models try to break a diff, keeping only proven findings |
 | `/automate-me` | draft your own personal -mode skill from recent transcripts |
 | `/reflect` | capture a long task's lessons as a skill edit |
 | `/tdd` | fix a bug by writing the failing test first, then the fix |
@@ -71,8 +71,8 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | `/benchmark-checklist` | vet a perf measurement before you report or act on it |
 | `/create-formal-verification-skill` | generate a project-local formal verification skill for the riskiest code |
 | `/maintain-formal-verification-skill` | bring formal verification back in line with changed code |
-| `/ketchup-video` | catch up like /ketchup, as a short silent video of slides |
-| `/statechart` | draw how a system moves between states as a model-checked statechart |
+| `/ketchup-video` | catch up like /ketchup, as a short subtitled video of slides |
+| `/statechart` | check a TLA+ model of a system and draw it as a statechart |
 
 ## Subagents
 

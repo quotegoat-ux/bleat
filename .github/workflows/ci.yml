@@ -68,7 +68,7 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
       - name: Test
-        run: bun test orch watch-pr
+        run: bun test watch-pr check-plan.test.ts
 
   shellcheck:
     name: Shell scripts

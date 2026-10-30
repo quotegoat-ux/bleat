@@ -11,3 +11,4 @@
 
 # bun deps for the vendored just-bleat-it scripts (bootstrap.ts installs them on first run)
 plugins/bleat/skills/just-bleat-it/scripts/node_modules/
+plugins/bleat/skills/statechart/scripts/node_modules/

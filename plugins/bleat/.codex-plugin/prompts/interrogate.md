@@ -1,6 +1,6 @@
 ---
 name: interrogate
-description: have three different models try to break a diff
+description: have different models try to break a diff, keeping only proven findings
 disable-model-invocation: true
 ---
 

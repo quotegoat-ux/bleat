@@ -1,6 +1,6 @@
 ---
 name: statechart
-description: draw how a system moves between states as a model-checked statechart
+description: check a TLA+ model of a system and draw it as a statechart
 disable-model-invocation: true
 ---
 
