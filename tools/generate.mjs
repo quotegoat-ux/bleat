@@ -250,7 +250,7 @@ const README_COMMAND_ORDER = [
   "fix-ci", "fix-merge-conflicts", "get-pr-comments", "what-did-i-get-done",
   "bleat-help", "ketchup", "sharpen", "in-your-own-words", "correct",
   "benchmark-checklist", "create-formal-verification-skill",
-  "maintain-formal-verification-skill",
+  "maintain-formal-verification-skill", "ketchup-video", "statechart",
 ];
 
 export function renderReadmeTable(readme, skills) {

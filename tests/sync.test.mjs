@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { applySubstitutions, denylistHits, syncComponent, threeWayMerge } from "../tools/sync.mjs";
@@ -144,5 +144,20 @@ describe("syncComponent", () => {
     const report = syncComponent({ oldDir: oldUp, newDir: newUp, localDir: local, rules: RULES.substitutions, write: false });
     expect(report.written).toEqual(["updated: s.md"]);
     expect(readFileSync(join(local, "s.md"), "utf8")).toBe("one\n");
+  });
+});
+
+describe("syncComponent file mode", () => {
+  test("carries upstream's exec bit onto new and existing local files", () => {
+    const newDir = tree({ "skills/x/run": "#!/bin/sh\n", "skills/x/old.sh": "echo\n", "skills/x/plain.md": "text" });
+    chmodSync(join(newDir, "skills/x/run"), 0o755);
+    chmodSync(join(newDir, "skills/x/old.sh"), 0o755);
+    const oldDir = tree({ "skills/x/old.sh": "echo\n" });
+    const localDir = tree({ "skills/x/old.sh": "echo\n" });
+    const report = syncComponent({ oldDir, newDir, localDir, rules: RULES.substitutions, write: true });
+    expect(report.madeExecutable.sort()).toEqual(["skills/x/old.sh", "skills/x/run"]);
+    expect(statSync(join(localDir, "skills/x/run")).mode & 0o777).toBe(0o755);
+    expect(statSync(join(localDir, "skills/x/old.sh")).mode & 0o777).toBe(0o755);
+    expect(statSync(join(localDir, "skills/x/plain.md")).mode & 0o111).toBe(0);
   });
 });

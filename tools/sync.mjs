@@ -20,7 +20,7 @@
 // material for the CHANGES.md entry.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -92,7 +92,7 @@ function listFiles(dir) {
 // Compare old-upstream vs new-upstream vs local for one component tree.
 // Returns { written, manual, unchanged, counts } and writes clean updates.
 export function syncComponent({ oldDir, newDir, localDir, rules, write, exclude = [] }) {
-  const report = { written: [], merged: [], manual: [], deletedUpstream: [], unchanged: 0, counts: new Map() };
+  const report = { written: [], merged: [], manual: [], deletedUpstream: [], madeExecutable: [], unchanged: 0, counts: new Map() };
   for (const newFile of listFiles(newDir)) {
     const rel = relative(newDir, newFile);
     if (exclude.some((prefix) => rel.startsWith(prefix))) continue;
@@ -141,6 +141,17 @@ export function syncComponent({ oldDir, newDir, localDir, rules, write, exclude 
       if (write) writeFileSync(localFile, merged);
       report.merged.push(`merged: ${localRel}`);
     }
+  }
+  // writeFileSync keeps an existing file's mode and creates new ones 0644, so an
+  // upstream launcher or test helper would land unrunnable. Carry the exec bit.
+  for (const newFile of listFiles(newDir)) {
+    const rel = relative(newDir, newFile);
+    if (exclude.some((prefix) => rel.startsWith(prefix))) continue;
+    if (!(statSync(newFile).mode & 0o111)) continue;
+    const localFile = join(localDir, applySubstitutions(rel, rules).text);
+    if (!existsSync(localFile) || statSync(localFile).mode & 0o111) continue;
+    if (write) chmodSync(localFile, statSync(localFile).mode | 0o755);
+    report.madeExecutable.push(applySubstitutions(rel, rules).text);
   }
   // A sync only adds and updates, so a file upstream dropped stays behind as an
   // orphan the port still ships. Report those; removing one is the human's call,
@@ -208,6 +219,7 @@ function main() {
     console.log(`\nunchanged: ${report.unchanged} files`);
     for (const w of report.written) console.log(w);
     for (const m of report.merged) console.log(m);
+    for (const x of report.madeExecutable) console.log(`made executable: ${x}`);
     for (const [pattern, n] of report.counts) console.log(`substituted: "${pattern}" x${n}`);
     if (report.manual.length) {
       console.log(`\nneeds manual merge (port-specific edits meet upstream changes):`);

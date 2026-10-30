@@ -2,6 +2,22 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.8.0 — sync to pstack 0.15.36
+
+Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `4dd1d05` (0.15.36), 24 upstream commits touching `pstack/`, in two passes: `99b609a` (0.15.32), then the rest. `cursor-team-kit` had no changes. This release was first prepared as 1.7.0; main took that number first.
+
+**New skills.** `statechart` checks a TLA+ model with TLC and draws it as a Mermaid statechart, with the shortest path to each rule that breaks. Upstream rewrote it mid-window from `.mjs` scripts into a TypeScript compiler run by a POSIX launcher (Node 22.18+, Bun 1.1.5+ or Deno 2.0+), and dropped its chart-to-TLA+ and spec-audit modes; the port takes the rewrite. Its 334-test suite passes locally (67 skip without TLC and Java). `ketchup-video` gives the `/ketchup` catch-up as a short subtitled video of slides. Both drop upstream's `disable-model-invocation` and gain a `menu-description:`.
+
+**Orchestrate goes agentic.** Upstream deleted the `orch` CLI and store (`c742dd6`); the coordinator now runs the program with its own tools. The port translates it for Claude Code: workers spawn with the `Agent` tool, writers in their own worktrees; program state lives in `~/.claude/orchestrate/<slug>/notes.md` and the decision trail; PR state comes from event subscriptions or `gh`. Owners still stop at merge-ready, and the operator clicks every merge. CI's script job drops the `orch` tests.
+
+**Autopilot-stack simplifies.** It is now Autopilot-full without the merge, and a PR stacks only on a PR it builds on. The Graphite single-writer stack text goes with it (Justin approved both in the project thread). Autopilot-full blocks a PR only for a problem a run or a wrong doc line shows, pushes each finished unit, and gives wording-only changes no verifier.
+
+**Changed skills.** `just-bleat-it` restates the user's goal in its first message, briefs, PRs and reports, backgrounds steers and resumes, and chains fallbacks when the `Agent` tool rejects a slug. `interrogate` makes adversaries prove each finding with a run and keeps only findings a rerun confirms; its four reference files are gone. `arena` never picks a cross-judge from the parent's model family and skips the judge when none is available. `principle-explain-the-number` applies before measuring. `/sharpen` returns to poteto's original prompt: it rewrites the task deeper, not bigger, and hands back the rewrite. `reflect` never edits a skill in the plugin cache. `watch-pr` and `worktree-audit.sh` pick up upstream fixes.
+
+**What the merge refused.** Grok defaults, cloud VMs (`environment: "cloud"`), `control-ui`/`control-cli`, per-spawn speed, and Cursor Projects as the orchestrate store.
+
+**Sync tooling.** `tools/sync.mjs` now carries upstream's exec bit onto the files it writes. Without it, the statechart launcher and its fake-`java` test helper landed 0644 and 75 statechart tests failed with `EACCES`; `check-plan.mjs` regains its exec bit the same way.
+
 ## 1.7.0 — test a new rule under every mode
 
 Port-specific: from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-19 and 2026-10-26, traced to the change that caused each one. Keep it on the next sync.
