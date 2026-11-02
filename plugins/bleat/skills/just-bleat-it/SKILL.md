@@ -85,9 +85,9 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Autonomy
 
-**Just do it.** Use any MCP tool. Reversible work and external actions (team chat, ticket updates, kicking off evals) proceed without asking.
+**Just do it.** Use any MCP tool. Reversible work and external actions (team chat, comments on an issue you are working, kicking off evals) proceed without asking.
 
-**Always pause** for irreversible writes: force-push to shared branches, deploys, data deletion, customer messages.
+**Always pause** for irreversible writes: force-push to shared branches, deploys, data deletion, customer messages, and filing, closing, or relabeling issues in a shared tracker. A team's bug counts and boards read those, so ask first, even for a bug you found yourself.
 
 **Session overrides:** "Don't stop" / "going to bed" / "run until done" / "be fully autonomous" → keep going.
 
