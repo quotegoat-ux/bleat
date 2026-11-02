@@ -1,5 +1,5 @@
 <EXTREMELY_IMPORTANT>
-You have bleat.
+You have bleat @VERSION@.
 
 Before responding to any non-trivial engineering task — a feature, bug fix, refactor, debugging, performance work, or any multi-step code change — invoke the `bleat:just-bleat-it` skill with the Skill tool and follow it. It is the default entry point and routes to the specific bleat skills from there. Pure questions and trivial one-line edits don't need it.
 

@@ -21,6 +21,8 @@ Invoked at the end of every other playbook.
 
 **Linked issues.** Before you write `Closes #N` or `Fixes #N`, read the issue and check each acceptance criterion against the diff. Write `Closes` only when every criterion is met. Otherwise write `Refs #N` and list the unmet criteria under `## Scope`.
 
+**Bleat marker.** End the body with one line, `Built with Bleat <version>`, using the version the session-start mandate names ("You have bleat 1.8.0"). Add it on every PR, even in a repo whose PR template has its own sections, and keep it when you edit the body. Review metrics use it to compare PRs built with Bleat against PRs built without it.
+
 After the sections, attach videos or screenshots when they prove a claim. Full SHAs, swarm or arena lane recitals, lever-correction essays, file-by-file checklists, and "CLEAN" verdicts go in a linked artifact, not the body.
 
 **Size and stacks.** Prefer five narrow PRs to one large PR. Stack follow-ups with Graphite (`gt`) or whatever stacking tool your team uses, and keep the ordered stack visible to reviewers. Branch from main only for independent work. Rebase on `main` before substantial stack work.

@@ -2,6 +2,12 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.9.0 — mark PRs built with Bleat
+
+Port-specific: for the opt-in Bleat pilot in Quote-Goat/quote-goat-core. Keep it on the next sync.
+
+The session-start mandate now names the installed version ("You have bleat 1.9.0"); `hooks/session-start` reads it from the plugin manifest. The Opening a PR playbook ends every PR body with `Built with Bleat <version>`, and `make-pr-easy-to-review` keeps that line. A pilot can then compare Devin findings on PRs built with Bleat against PRs built without it in the same weeks, which a plain before and after can't do once the reviewer itself changes.
+
 ## 1.8.0 — sync to pstack 0.15.36
 
 Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `4dd1d05` (0.15.36), 24 upstream commits touching `pstack/`, in two passes: `99b609a` (0.15.32), then the rest. `cursor-team-kit` had no changes. This release was first prepared as 1.7.0; main took that number first.
