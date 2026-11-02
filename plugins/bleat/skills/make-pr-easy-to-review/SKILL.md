@@ -53,6 +53,7 @@ When code behavior should stay untouched, prefer PR description and review notes
 - Call out risky behavior changes, migration order, rollout plan, and test coverage.
 - Link issue trackers, dashboards, or design docs when they explain intent.
 - Check each acceptance criterion of a linked issue against the diff. Keep `Closes #N` only when all of them are met. Otherwise change it to `Refs #N` and list the unmet criteria.
+- Keep the `Built with Bleat <version>` line at the end of the body. Review metrics depend on it.
 
 ## Guardrails
 
