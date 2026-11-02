@@ -1,6 +1,6 @@
 ---
 name: principle-model-the-domain
-description: "Apply when writing stateful logic, or when code branches a lot or repeats a shape assumption across files."
+description: "Apply when writing stateful logic, when code branches a lot or repeats a shape assumption across files, or when a record has more than one way in (two screens, two create paths, two servers)."
 user-invocable: false
 ---
 
@@ -26,6 +26,12 @@ State held in a client (a store, a grid, router state, a query cache) has a life
 - What re-syncs it on a new history entry, a redirect, or a remount, when the ids stay the same?
 - Does a mounted but hidden view still fetch, refetch on focus, or react to invalidation?
 - What refetches after a write, what is left after a partial failure, and which writes can race?
+
+A record often has more than one way in: a grid cell and a drawer edit the same field, signup and an admin screen both create an account, a create returns the record and a read returns it again, a local server and the deployed one answer the same request. Each rule for that record lives in one function that every path calls:
+
+- Before adding a rule, list every path that reaches the record and call the rule from each.
+- Before adding a path, list the rules the existing path applies (what is editable, what an edit implies, what gets seeded, what the response holds) and call them, not a copy.
+- Run one case through each path and assert the same result. That test catches the path you forgot.
 
 Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
 
