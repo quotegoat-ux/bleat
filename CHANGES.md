@@ -2,6 +2,14 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.9.0 — one rule for every path, and tests that own their world
+
+Port-specific: from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-26 and 2026-11-02, traced to the change that caused each one. Keep both on the next sync.
+
+**`principle-model-the-domain`** gains a paragraph and three bullets: when a record has more than one way in, each rule lives in one function every path calls. List the paths before adding a rule, list the rules before adding a path, and run one case through each path. Five bugs this week had this shape. The line resource drawer ignored the grid's rule that a typed value makes a row Independent (#4337), and left editable a field the grid locks (#4340). Signup skipped the Canadian tax seed that creating an organization runs (#4362); #3587 had fixed the same gap for fuel types. The CORS header list was copied by hand into three servers, and the local one fell behind (#4244). `POST /tasks` returned a different shape from `GET /tasks/:id` (#4056). The description and the `just-bleat-it` index line name the new trigger.
+
+**`principle-test-behavior-not-implementation`** gains a paragraph: run a test again alone, in another order, under load, and with a real environment, and make it own whatever changes the result. Six tests failed CI at random or on one machine this week (#4198, #4292, #4297 with three tests, #4332). The causes were an environment variable read but never set, editors and timers left running past teardown, a container stop that outran the hook timeout, a mock that built a new Map on every call, and a click sent before the menu wired its trigger. The description, the README row and the `just-bleat-it` index line say so.
+
 ## 1.8.0 — sync to pstack 0.15.36
 
 Catches the port up with `cursor/plugins` from `d457567` (0.15.28) to `4dd1d05` (0.15.36), 24 upstream commits touching `pstack/`, in two passes: `99b609a` (0.15.32), then the rest. `cursor-team-kit` had no changes. This release was first prepared as 1.7.0; main took that number first.

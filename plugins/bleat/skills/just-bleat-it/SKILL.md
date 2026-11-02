@@ -57,7 +57,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Architecture**
 
-- **Model the Domain.** Writing stateful logic, or code that branches a lot or repeats a shape assumption across files. Encode the domain in a structure (state machine, typed model, table or registry, reducer, boundary, the right collection) instead of scattered conditionals.
+- **Model the Domain.** Writing stateful logic, code that branches a lot or repeats a shape assumption across files, or a record with more than one way in. Encode the domain in a structure (state machine, typed model, table or registry, reducer, boundary, the right collection) instead of scattered conditionals.
 - **Boundary Discipline.** Wiring validation, error handling, or framework adapters. Guards at system boundaries, trust internal types, keep business logic pure.
 - **Enforce Where It Is Stored.** More than one client writes the same data, or a client fills in a field to suit the server. The store enforces the rule for every writer.
 - **Type System Discipline.** Designing types or a signature in any typed language. Make illegal states unrepresentable, brand primitives, parse external data at boundaries.
@@ -70,7 +70,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - **Prove It Works.** After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
 - **Fix Root Causes.** Debugging. Trace each symptom back to the first place the system went wrong and fix it there. A guard is a fix only when the state it handles is legitimate.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
-- **Test Behavior, Not Implementation.** Writing, changing, or keeping a test. Assert what the code's users can observe, so the test fails when that behavior breaks and keeps passing when only the internals change.
+- **Test Behavior, Not Implementation.** Writing, changing, or keeping a test. Assert what the code's users can observe, so the test fails when that behavior breaks, keeps passing when only the internals change, and gives the same answer however it runs.
 - **Test Against Real Shapes.** Writing a test, seed, fixture, or migration, or checking a change before it ships. Run it on the shapes production holds (old rows, missing settings, several tenants, rows other clients wrote), not only the clean fixture.
 - **Explain the Number.** Apply before you measure, and before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result). Find what limits it, and rule out that it measured something other than the work you think.
 
