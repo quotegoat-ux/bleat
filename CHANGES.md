@@ -2,6 +2,18 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.12.0 — access checks that fail closed, and a server that owns identity
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-02 and 2026-11-09. Keep all four on the next sync. Numbered past 1.11.0, which #15 holds.
+
+**`principle-boundary-discipline`** gains a bullet and a test: an access check that finds nothing to check refuses, and a caller's filter only narrows the allowed set. Run four requests per tenant route (another tenant's id, a sibling subsidiary in the filter, an empty id list, an ownerless row). Eight bugs this week had this shape, counting the in-app agent reaching every organization the user belongs to (#4669). `cbsLineIds=,` passed the "ids required" check and listed every subsidiary's unit costs (#4642). `GET /files?subsidiaryId=` returned a subsidiary the caller had no grant on (#4613). Ownerless file rows fell back to "file rights anywhere" (#4614). `deleteUser`, `inviteUsers` and task child routes acted on other organizations (#4610, #4611, #4612). Devin flagged the same leak three times in the new Directory API (#4518). The 1.5.0 bullet on outside references was already there and still missed (#4615). The description and the `just-bleat-it` index line name access checks.
+
+**`principle-enforce-where-it-is-stored`** gains a bullet and a test: the server makes ids, owners, billing ids, storage keys and entitlements, and refuses a body that names one; a create with a required field left out is a 400, never a 500. Bugs #4698 and #4699 (the browser made record ids), #4618 (`setupUser` took another user's `sub`), #4616 (an admin wrote paid add-on rows), #4676 (the Stripe customer id was editable), and #4353 and #4686 (a missing `date` or `id` reached the NOT NULL column as a 500).
+
+**`principle-model-the-domain`** gains two client-state questions: is every cached query keyed by organization, and which copies still hold a temporary id once the server makes the real one. Devin found cross-organization cache leaks in #4696 and #4586, and lost pins, selections and tags from a client id the server replaced in #4586, #4553 and #4627.
+
+**`principle-test-against-real-shapes`** adds more rows than one page to the shapes to seed. Devin found pickers, bells, exports and filters built from the first page in #4696, #4592, #4519 and #4553.
+
 ## 1.10.0 — one rule for every path, and tests that own their world
 
 Port-specific: from bug issues opened or closed in Quote-Goat/quote-goat-core between 2026-10-26 and 2026-11-02, traced to the change that caused each one. Keep both on the next sync. This release was first prepared as 1.9.0; main took that number first.

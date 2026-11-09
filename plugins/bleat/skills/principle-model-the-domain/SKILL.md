@@ -26,6 +26,8 @@ State held in a client (a store, a grid, router state, a query cache) has a life
 - What re-syncs it on a new history entry, a redirect, or a remount, when the ids stay the same?
 - Does a mounted but hidden view still fetch, refetch on focus, or react to invalidation?
 - What refetches after a write, what is left after a partial failure, and which writes can race?
+- Is every cached query keyed by the organization (and subsidiary) it was read for, so an organization switch can't show the last one's rows?
+- When the server makes a new row's id, which copies still hold the temporary one: the live grid row, a pin, a pending rename that sends a second create?
 
 A record often has more than one way in: a grid cell and a drawer edit the same field, signup and an admin screen both create an account, a create returns the record and a read returns it again, a local server and the deployed one answer the same request. Each rule for that record lives in one function that every path calls:
 

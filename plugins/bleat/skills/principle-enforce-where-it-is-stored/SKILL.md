@@ -15,9 +15,11 @@ The rule for what a record may hold lives where the record is stored: the API th
 - **Back the invariants that matter with database constraints**, so a path that skips the API still cannot store a broken row.
 - **Treat client-side checks as feedback, not enforcement.** Instant feedback in the browser can share the server's code, but the server decides.
 - **When a client works around a server gap, fix the server**, then delete the workaround.
+- **The server makes identity and entitlement.** A row's id, its owner (user id, `sub`, organization), a billing or payment-provider id, a storage key, and what the customer paid for come from the server or from the provider's own record, never from a request body. Refuse a body that names one. A client that may choose an id may choose another row's id.
 
 **The tests:**
 - "If a new client sent the minimal body the API accepts, would the stored row still be valid?"
 - "Is this client changing data to suit the server? If so, the rule belongs on the server."
+- Send each create once with every required field left out in turn. Each answer is a 400 that names the field, never a 500 from a database constraint.
 
 Builds on [Boundary Discipline](../principle-boundary-discipline/SKILL.md): this names which boundary owns a rule when several clients share one store.
