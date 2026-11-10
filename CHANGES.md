@@ -2,6 +2,24 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.13.0 — fixes picked up from pstack-claude
+
+Poteto's pstack in `cursor/plugins` has not changed since 0.15.36 (`4dd1d05`, synced in 1.8.0), so this release takes the Claude Code fixes that `michael-denyer/pstack-claude` made between 0.9.95 and 0.9.134 (`49b6850..a691bd3`). Its other 100-odd commits add runtimes Bleat does not ship (Pi, Codex, Copilot, Muse, MiniMax, Antigravity, Kimi, Grok, OMP, OpenCode) or fix scripts Bleat does not carry (`worktree-audit.mjs`, `resume.mjs`, `claude-project-dir.mjs`, the model-sheet hooks). Numbered past 1.12.0; #15 holds 1.11.0.
+
+**Bug fix playbook** gains a focused-fix exception. When runtime evidence pins a bug to one subsystem, the fix keeps interfaces and state semantics, a cheap regression check exists, and nothing contradicts the cause, one delegate investigates and fixes it without the `how`, `why` and `architect` fan-out. Security, schema, migration, concurrency and routing changes never qualify. The playbook also asks for `architect` before any contract change even inside one function, an independent reviewer for code that enforces a security or data-integrity invariant, and a reply that says what the deployed runtime actually served. `just-bleat-it` names the exception among its triggers. Bleat's blast-radius step still applies.
+
+**`/no-comments`** no longer deletes a correct comment about a dependency's or platform's rule on a guess. `comment-sicko` checks such a rule in that system's docs or source, cites the page when it kills the comment, and keeps it as a `HOLD` when it cannot settle it. A rejected second report fails only that report's findings, so the accepted ones still land.
+
+**`/deslop`** diffs against the branch's base (the PR's base, else the branch it was cut from, else the default branch) instead of `main`, counts uncommitted changes, reruns the checks after editing, and reverts any edit whose check fails.
+
+**`how`**'s explainer traces the code itself when no explorers ran, where it was told explorers had done that work.
+
+**Session pickup** verifies inherited claims before it routes the remaining work. The route step ended the playbook, so the verify step after it never ran.
+
+**Transcript, skill and plugin paths** follow `CLAUDE_CONFIG_DIR`. Every skill that named `~/.claude/projects/`, `~/.claude/skills/`, `~/.claude/plugins/` or `~/.claude/shell-snapshots/` now names `${CLAUDE_CONFIG_DIR:-$HOME/.claude}/...`, and `worktree-audit.sh` reads transcripts there. `recall`, `automate-me` and session pickup describe the transcript folder name correctly: Claude Code turns every character other than a letter or digit into `-`, the leading slash included.
+
+The SessionStart hook shows "Loading bleat routing" while it runs.
+
 ## 1.12.0 — access checks that fail closed, and a server that owns identity
 
 Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-02 and 2026-11-09. Keep all four on the next sync. Numbered past 1.11.0, which #15 holds.
