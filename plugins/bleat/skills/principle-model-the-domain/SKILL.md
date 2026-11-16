@@ -29,6 +29,8 @@ State held in a client (a store, a grid, router state, a query cache) has a life
 - Is every cached query keyed by the organization (and subsidiary) it was read for, so an organization switch can't show the last one's rows?
 - When the server makes a new row's id, which copies still hold the temporary one: the live grid row, a pin, a pending rename that sends a second create?
 
+The race question needs a run, not an answer. For every control that saves (a toggle, a multi-select, a cell, a drag), test two cases: change it twice before the first save answers, and make the second of two saves fail. In both, the screen must end up showing what the server holds. A control that sends the whole list on each change, or restores a baseline taken before an earlier save landed, fails one of the two.
+
 A record often has more than one way in: a grid cell and a drawer edit the same field, signup and an admin screen both create an account, a create returns the record and a read returns it again, a local server and the deployed one answer the same request. Each rule for that record lives in one function that every path calls:
 
 - Before adding a rule, list every path that reaches the record and call the rule from each.

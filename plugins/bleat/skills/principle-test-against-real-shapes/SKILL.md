@@ -13,6 +13,7 @@ A change written against a clean fixture passes against that fixture. Production
 **The pattern:**
 - **Seed the odd shapes on purpose.** Keep a fixture that carries the shapes production has: missing optional settings, several tenants or subsidiaries, records made through every write path (UI, API, agents, imports), very large and very small values, one empty parent, and more rows than one page of every list the change reads. A picker, filter, export or count built from the first page is wrong for every account past that page.
 - **Run a migration against data that already breaks it.** A new constraint, unique index, or NOT NULL column meets existing rows. Seed a violating row, and make the migration clean, backfill, or refuse with a clear message before it adds the constraint.
+- **Run a migration against the code that is still live.** A deploy changes the schema while the old code still serves requests, and a rollback runs the old code on the new schema. Drop or rename a column or table only in a release after the last code that reads it has shipped everywhere. A copy into a new table must catch writes the old code makes after the copy, or the new code loses them. Never edit a migration that already ran; add a new one. Check each schema change against the code on the default branch today, not only against the branch's code.
 - **Run a new rule under every mode the domain names.** When a change adds a rule to shared logic, list the variants and modes its inputs can take: each value of an enum, each override tier, each kind of parent or child, and the record that lacks the part the rule assumes. Test the rule's definition under each one, with the expected value taken from the domain's own definition. A rule that is right for the case it was written for and wrong for a mode nobody listed is the most common cross-feature bug.
 - **Check a number everywhere it shows.** When a change touches a value that several screens, exports, or documents display, assert the same value in each place for the same record.
 - **Ask where the data came from.** Before calling a bug "can't reproduce", find out which client wrote the record and reproduce with a record written the same way.
@@ -20,6 +21,7 @@ A change written against a clean fixture passes against that fixture. Production
 **The tests:**
 - "Which rows in production would this change see that my fixture does not have?" Name them, then add them.
 - "Would this migration succeed on yesterday's data, not just an empty database?"
+- "What does the code serving requests right now do once this migration has run?"
 - "Which modes and variants of these inputs did I not run the new rule under?"
 
 Distinct from [Test Behavior, Not Implementation](../principle-test-behavior-not-implementation/SKILL.md), which is about what a test asserts. This one is about the data it runs on.
