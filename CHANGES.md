@@ -2,6 +2,16 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.14.0 — parallel work on a one-at-a-time resource, deploy order, and a race check
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-09 and 2026-11-16. Keep all three on the next sync.
+
+**`principle-separate-before-serializing-shared-state`** gains a step and a test: know which resources run one operation at a time (a transaction, a connection, a schema catalog), and test parallel code through a fake that refuses an overlapping call. Two bugs this week. Sign-up sometimes left a new user with no organization because `holdersOfRole` ran two selects with `Promise.all` on one Data API transaction (#4898, from #3589); the fix found the same shape in two sibling helpers. A backend deploy sometimes failed because two database-role resources granted on the same schema in parallel (#4899, from #4551). The description and the `just-bleat-it` index line name the new trigger.
+
+**`principle-test-against-real-shapes`** gains a bullet and a test: a migration meets the code that is still live, so drop a column only after the code that reads it has shipped, make a copy catch the old code's later writes, and never edit a migration that already ran. Devin flagged this on four merged PRs: a column dropped while `main` still inserted it (#4822), preference writes from the old API lost after a copy (#4974), a table dropped with rows the copy skipped (#4713), and an edited base-schema chunk that replays and fails on existing databases (#4792).
+
+**`principle-model-the-domain`** turns its "which writes can race" question into two runs: change a control twice before the first save answers, and fail the second of two saves. Devin flagged overlapping whole-list saves or a stale restore baseline on #4902, #4903 (twice), #4829 and #4760. The question has been there since 1.5.0 and was still missed.
+
 ## 1.13.0 — fixes picked up from pstack-claude
 
 Poteto's pstack in `cursor/plugins` has not changed since 0.15.36 (`4dd1d05`, synced in 1.8.0), so this release takes the Claude Code fixes that `michael-denyer/pstack-claude` made between 0.9.95 and 0.9.134 (`49b6850..a691bd3`). Its other 100-odd commits add runtimes Bleat does not ship (Pi, Codex, Copilot, Muse, MiniMax, Antigravity, Kimi, Grok, OMP, OpenCode) or fix scripts Bleat does not carry (`worktree-audit.mjs`, `resume.mjs`, `claude-project-dir.mjs`, the model-sheet hooks). Numbered past 1.12.0; #15 holds 1.11.0.
