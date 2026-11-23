@@ -4,9 +4,9 @@ bleat is its own skill library, built on two upstreams. This file records where 
 
 | upstream | role | last synced | version |
 | --- | --- | --- | --- |
-| [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/pstack), `pstack/` | skill content (poteto's pstack) | `4dd1d05818d19792e7cd6e818f1667f95f7e1dbe` (2026-10-30) | 0.15.36 |
+| [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/pstack), `pstack/` | skill content (poteto's pstack) | `0b46ec399d55f2829e88822998f53b84944837d3` (2026-11-19) | 0.15.46 |
 | [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/cursor-team-kit), `cursor-team-kit/skills/` | vendored team-kit skills | `e46364b8be46000b7df0f260550cd712afbb8d36` | — |
-| [`michael-denyer/pstack-claude`](https://github.com/michael-denyer/pstack-claude) | the Claude Code port bleat forked from at `c2ade4b`; a reference for translating new Cursor primitives | `a691bd30341289b9c7eae8e5b4da28a400ea2423` (2026-11-10, 0.9.134); 1.13.0 took its Claude Code fixes from `49b6850..a691bd3` | — |
+| [`michael-denyer/pstack-claude`](https://github.com/michael-denyer/pstack-claude) | the Claude Code port bleat forked from at `c2ade4b`; a reference for translating new Cursor primitives | `66181d3c70fb605a670578a1b46c23ff0f3caebb` (2026-11-23, 0.9.153); 1.13.0 took its Claude Code fixes up to `a691bd3`, and 1.17.0 took its cloud-session PR reads | — |
 
 The machine-readable pins live in [`tools/upstream.json`](tools/upstream.json), and `tools/sync.mjs` advances them. Keep this table in step with that file.
 
@@ -14,6 +14,7 @@ The machine-readable pins live in [`tools/upstream.json`](tools/upstream.json), 
 
 | bleat | pstack | upstream range |
 | --- | --- | --- |
+| 1.17.0 | 0.15.46 | `4dd1d05..0b46ec3` |
 | 1.8.0 | 0.15.36 | `d457567..4dd1d05` |
 | 1.3.0 | 0.15.28 | `f8abedd..d457567` |
 | 1.2.0 | 0.15.0 | `fd87869..f8abedd` |
