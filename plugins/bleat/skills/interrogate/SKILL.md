@@ -25,7 +25,7 @@ Default reviewers, used when `~/.claude/bleat-models.md` has no `interrogate rev
 | Subagent | Default model |
 |----------|---------------|
 | Reviewer A | `claude-opus-5-5` |
-| Reviewer B | `claude-fable-5-1` |
+| Reviewer B | `claude-fable-5-2` |
 | Reviewer C | `claude-sonnet-5-5` |
 
 ## Verify

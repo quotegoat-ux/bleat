@@ -28,22 +28,23 @@ Enumerate the model slugs you can pass to an `Agent` subagent in this session. T
 
 The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.claude/bleat-models.md` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
 
+A `# budget: unlimited` line comes from an older setup. It becomes `large`, because no role runs above `xhigh`. Every role value is the user's choice and stays. Tell the user if you replaced the budget.
+
 ### 3. Budget, map, and confirm
 
-**(a) Ask for a budget.** Prefer `AskUserQuestion` over free text. Offer these four options with these exact labels, and name the current budget when the sheet records one. With no sheet, say that `large` matches the skill defaults.
+**(a) Ask for a budget.** Prefer `AskUserQuestion` over free text. Offer these three options with these exact labels, and name the current budget when the sheet records one. With no sheet, say that `large` matches the skill defaults.
 
-- `unlimited — max reasoning`
 - `large — xhigh reasoning`
 - `medium — high reasoning`
 - `small — medium reasoning`
 
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`, `auto`). The budget does not change any role value. It sets the reasoning effort every bleat subagent starts from: `unlimited`, `large`, `medium`, and `small` start at `max`, `xhigh`, `high`, and `medium` on the ladder `max` > `xhigh` > `high` > `medium` > `low`. The parent passes that level as the `Agent` call's `effort`, raising or lowering it per job as just-bleat-it's **Match the model to the job** describes. A model that does not take a level runs at its nearest one. `large` keeps the defaults.
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`, `auto`). The budget does not change any role value. It moves the reasoning effort every bleat subagent starts from. Each role starts at its default effort, which just-bleat-it's Subagents section lists: `xhigh` for code, prose, and judgment, and `high` for trivial edits, `swarm workers`, verification, and panel seats. `large` keeps those levels, `medium` lowers each one step, and `small` lowers each two steps, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a level at the bottom of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. The parent passes the level as the `Agent` call's `effort`, raising or lowering it per job as just-bleat-it's **Match the model to the job** describes. A model that does not take a level runs at its nearest one.
 
 **(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` as the options. Prefer `AskUserQuestion` over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's (Opus, Fable, Sonnet), in list order, so order it by preference. An `inherit-parent` or `auto` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 
 ### 4. Validate
 
-Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. The budget must be one of the four labels in step 3. If a chosen real slug is not available, stop and ask again.
+Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. The budget must be one of the three labels in step 3. If a chosen real slug is not available, stop and ask again.
 
 ### 5. Write the override sheet
 
@@ -59,18 +60,12 @@ bug-fix: claude-opus-5-5
 perf-issue: claude-opus-5-5
 hillclimb: claude-opus-5-5
 judgment and prose: claude-opus-5-5
-strongest judgment: claude-fable-5-1
-how explorer: claude-opus-5-5
+strongest judgment: claude-fable-5-2
 how explainer: claude-opus-5-5
-why investigators: claude-opus-5-5
-why synthesizer: claude-opus-5-5
-reflect tooling: claude-opus-5-5
-reflect judgment, divergent, synthesizer: claude-opus-5-5
-arena runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
-arena cross-judge pool: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
+arena runners: claude-opus-5-5, claude-fable-5-2, claude-sonnet-5-5
+arena cross-judge pool: claude-opus-5-5, claude-fable-5-2, claude-sonnet-5-5
 swarm workers: claude-opus-5-5
-architect runners: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
-interrogate reviewers: claude-opus-5-5, claude-fable-5-1, claude-sonnet-5-5
+interrogate reviewers: claude-opus-5-5, claude-fable-5-2, claude-sonnet-5-5
 ```
 
 After the role lines, add one last line with the chosen budget label and its starting effort, such as `# budget: large (xhigh)`.
@@ -95,6 +90,6 @@ Check whether the project already has a formal verification skill (a project ski
 
 Stamped from `plugins/bleat/models.json` (edit there, rerun `tools/generate.mjs`).
 
-- Available Claude models: Opus 5.5 (`claude-opus-5-5`), Opus 5 (`claude-opus-5`), Fable 5.1 (`claude-fable-5-1`), Fable 5 (`claude-fable-5`), Sonnet 5.5 (`claude-sonnet-5-5`), Sonnet 5 (`claude-sonnet-5`)
-- Default panel: `claude-opus-5-5`, `claude-fable-5-1`, `claude-sonnet-5-5`
+- Available Claude models: Opus 5.5 (`claude-opus-5-5`), Opus 5 (`claude-opus-5`), Fable 5.2 (`claude-fable-5-2`), Fable 5 (`claude-fable-5`), Sonnet 5.5 (`claude-sonnet-5-5`), Sonnet 5 (`claude-sonnet-5`)
+- Default panel: `claude-opus-5-5`, `claude-fable-5-2`, `claude-sonnet-5-5`
 - Single-role default: `claude-opus-5-5`

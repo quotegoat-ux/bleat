@@ -56,7 +56,7 @@ In context, that's enough. [`/tdd`](../../skills/tdd/SKILL.md) writes the smalle
 
 ## Clean before you commit
 
-The [Opening a PR playbook](../../skills/just-bleat-it/playbooks/opening-a-pr.md) runs `/deslop` on the diff before each commit and applies [`/unslop`](../../skills/unslop/SKILL.md) to the PR description and commit bodies. [`/deslop`](../../skills/deslop/SKILL.md) ships in bleat, so both are available once the plugin is installed.
+The [Opening a PR playbook](../../skills/just-bleat-it/playbooks/opening-a-pr.md) runs `/deslop` on the diff before each commit, and just-bleat-it applies [`/unslop`](../../skills/unslop/SKILL.md) to the PR description and commit bodies. [`/deslop`](../../skills/deslop/SKILL.md) ships in bleat, so both are available once the plugin is installed.
 
 For prose, `/unslop` takes a target and any extra rules you have:
 

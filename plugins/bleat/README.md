@@ -34,7 +34,7 @@ two steps:
 
 new here? the [bleat guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs. stuck, or unsure which skill fits? ask [`/bleat-help`](./skills/bleat-help/SKILL.md).
 
-that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box the mode splits work by model strength: feature and refactoring delegates, prose, and judgment go to opus 5.5, while bug fix, perf, hillclimb, and the hardest changes go to fable 5.1. the default panel is opus 5.5 / fable 5.1 / sonnet 5. [`/setup-bleat`](./skills/setup-bleat/SKILL.md) changes any of it.
+that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box, code delegates (feature, refactoring, bug fix, perf, hillclimb), prose, and judgment go to opus 5.5 at xhigh effort, and no role runs above xhigh. outside a review panel, fable 5.1 runs only when you name it or after two opus 5.5 runs of the same brief fail. the default panel is opus 5.5 / fable 5.1 / sonnet 5.5. [`/setup-bleat`](./skills/setup-bleat/SKILL.md) changes any of it.
 
 ## usage
 
@@ -42,7 +42,7 @@ use [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) at the start of a task. 
 
 ### just use [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md)
 
-this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-three playbooks:
+this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-two playbooks:
 
 ```
 /just-bleat-it this pr has a subtle bug where the scroll drifts every 750ms even when idle. repro
@@ -55,7 +55,7 @@ morning.
 ```
 
 <details>
-<summary>the twenty-three playbooks</summary>
+<summary>the twenty-two playbooks</summary>
 
 | playbook | for |
 |---|---|
@@ -74,7 +74,6 @@ morning.
 | [babysit](./skills/just-bleat-it/playbooks/babysit.md) | drive a pr or a stack to merge-ready: conflicts, review threads, ci. |
 | [shipping](./skills/just-bleat-it/playbooks/shipping.md) | independently verify a green stack, then land the contiguous verified run with graphite merge-when-ready. |
 | [autonomous run](./skills/just-bleat-it/playbooks/autonomous-run.md) | drive a long task to completion without stopping. |
-| [orchestrate](./skills/just-bleat-it/playbooks/orchestrate.md) | a standing project handed to one coordinator chat: multi-day, many stacked prs, fleets of subagents. |
 | [autopilot-full](./skills/just-bleat-it/playbooks/autopilot-full.md) | run independent prs to merged with one owner per pr. a swarm verifies each code-ready head, and every later change to the patch gets a fresh check. |
 | [autopilot-stack](./skills/just-bleat-it/playbooks/autopilot-stack.md) | autopilot-full without the merge. build and verify prs for the operator to review and land, stacking a pr only on a pr it builds on. |
 | [session pickup](./skills/just-bleat-it/playbooks/session-pickup.md) | resume or take over a prior agent's in-flight work. |
@@ -101,7 +100,7 @@ the full rules and playbooks live in [`skills/just-bleat-it/SKILL.md`](./skills/
 
 ## skills
 
-[`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) runs most of these for you when a step needs them (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `tdd`, and the principles). the table below is for when you want one directly:
+[`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) runs most of these for you when a step needs them (`why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `tdd`, and the principles). the table below is for when you want one directly:
 
 ```
 /how do we cancel runs? do we have an n+1 when we look up every run to cancel?
@@ -119,9 +118,9 @@ the full rules and playbooks live in [`skills/just-bleat-it/SKILL.md`](./skills/
 | [`/just-bleat-it`](./skills/just-bleat-it/SKILL.md) | default entry point for any non-trivial task. |
 | [`/bleat-help`](./skills/bleat-help/SKILL.md) | you're new to bleat, or unsure which skill, playbook, or principle fits. finds out what you're trying to do, answers that part, and hands you a prompt to type. runs only when you type `/bleat-help`. |
 | [`/in-your-own-words`](./skills/in-your-own-words/SKILL.md) | you want the agent to play back your goal and the problem before it starts. runs only when you type `/in-your-own-words`. |
-| [`/sharpen`](./skills/sharpen/SKILL.md) | you want a prompt made deeper, not bigger, before you send it: what a top professional would do that you didn't ask for, the raw material they'd start from, their methods and tools, and an outside check that the result is right. hands back the rewritten prompt and leaves your choices open. doesn't do the task. runs only when you type `/sharpen`. |
+| [`/sharpen`](./skills/sharpen/SKILL.md) | you want a prompt made deeper, not bigger, before you send it: what a top professional would do that you didn't ask for, the raw material they'd start from, their methods and tools, and an outside check that the result is right. hands back the rewritten prompt, which asks the agent to prototype any choice an experiment can settle and leaves product and preference choices to you. doesn't do the task. runs only when you type `/sharpen`. |
 | [`/how`](./skills/how/SKILL.md) | you want a walkthrough of how a subsystem works. |
-| [`/why`](./skills/why/SKILL.md) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
+| [`/why`](./skills/why/SKILL.md) | you want to know why something was built this way. answers from the record, not the code: the commits and pr discussions that introduced it and each later change, and other sources when that trail is thin. cites what the authors wrote, marks its own inferences, and says what the record does not answer. |
 | [`/recall`](./skills/recall/SKILL.md) | you're starting or resuming work and want your recent context on a topic rebuilt from your own chat history and the shared record, handed back as a tight current-state brief. |
 | [`/ketchup`](./skills/ketchup/SKILL.md) | you want what changed in this chat since your last message, in plain words and small visuals, with every item waiting on you listed and decidable from the reply alone, even when that makes the reply long. |
 | [`/ketchup-video`](./skills/ketchup-video/SKILL.md) | you want the `/ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |

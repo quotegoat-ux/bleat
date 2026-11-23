@@ -34,7 +34,7 @@ Every skill is also a slash command. The mode routes to these on its own; call o
 | --- | --- |
 | `/just-bleat-it` | default entry point for any non-trivial task |
 | `/how` | walk through how a subsystem works |
-| `/why` | investigate why something was built this way (parallel multi-MCP evidence) |
+| `/why` | investigate why something was built this way, from the commit and PR record |
 | `/architect` | settle types and module shape before writing code that crosses a function boundary |
 | `/arena` | run N parallel attempts at the same task and pick the best parts |
 | `/interrogate` | have different models try to break a diff, keeping only proven findings |

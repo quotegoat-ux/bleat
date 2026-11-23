@@ -71,7 +71,7 @@ For a quick status instead of an audit, run [`/ketchup`](../../skills/ketchup/SK
 
 ## When the night holds a queue, not a task
 
-The contract above drives one task to one finish condition. Some nights hold more, a queue of independent changes or a whole program. Three playbooks scale the same trust up.
+The contract above drives one task to one finish condition. Some nights hold more, a queue of independent changes or a whole program. Two playbooks and one skill scale the same trust up.
 
 [Autopilot-full](../../skills/just-bleat-it/playbooks/autopilot-full.md) runs a queue of independent PRs to merged. Each PR gets one owner agent that carries it from build through merge, and no owner merges on its own verdict. A swarm of fresh verifiers checks the owner's code-ready head. A later rebase or minor fix gets one fresh verifier, and only new behavior or a large new diff calls the full swarm again. Only a clean verdict on the patch that merges authorizes the merge:
 
@@ -85,15 +85,15 @@ The contract above drives one task to one finish condition. Some nights hold mor
 /just-bleat-it autopilot these five changes, but don't merge. i'll land them in the morning.
 ```
 
-[Orchestrate](../../skills/just-bleat-it/playbooks/orchestrate.md) is for a program that outlives any single agent: multi-day, many stacked PRs, fleets of subagents under one standing coordinator chat. The coordinator decides which agent does each piece of work, checks what each one produces, and never writes code itself. If one agent could finish the work in a session, the playbook itself routes you back to the overnight contract above:
+A whole program, such as a migration across many packages, has no playbook of its own. `/just-bleat-it` routes large or cross-cutting work to [`/figure-it-out`](../../skills/figure-it-out/SKILL.md), which designs one rigorous run for it:
 
 ```text
-/just-bleat-it orchestrate the store migration. own it until every package is converted and merged. i'll check in twice a day.
+/just-bleat-it migrate every package to the new store. own it until each one is converted and merged. i'll check in twice a day.
 ```
 
 ## Run many projects in parallel
 
-Give one coordinator session a body of work. The coordinator doesn't write code. It directs subagents, each in its own git worktree, so their changes never collide. That's the shape the Orchestrate playbook expects. Start your prompts to the coordinator with `/just-bleat-it`, and the subagents it spawns follow the playbooks.
+Give one coordinator session a body of work. The coordinator doesn't write code. It directs subagents, each in its own git worktree, so their changes never collide. Start your prompts to the coordinator with `/just-bleat-it`, and the subagents it spawns follow the playbooks. Each agent it starts reads [`worker.md`](../../skills/just-bleat-it/worker.md) first, so workers hold to the kickoff's bar, decide reversible calls instead of asking you, and open PRs ready for review.
 
 A few habits help:
 

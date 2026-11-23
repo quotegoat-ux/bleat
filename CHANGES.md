@@ -2,6 +2,26 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.17.0 — sync to pstack 0.15.46: shorter skills, worker.md, Opus-first routing
+
+Catches the port up with `cursor/plugins` from `4dd1d05` (0.15.36) to `0b46ec3` (0.15.46), five upstream commits touching `pstack/`. `cursor-team-kit` had no changes. The owner chose to take poteto's cuts whole.
+
+**Shorter skills.** Fourteen principle leaves, `unslop` and `technical-writing` get poteto's shorter bodies. `why` becomes one short file, `how` runs one explore-and-explain subagent, `architect` is a short brief that routes large or contested designs to `arena`, and `reflect` reads the transcript itself with no subagents. Their `references/` files, reflect's reviewers and synthesizer, and the `how explorer`, `why investigators`, `why synthesizer`, `reflect tooling`, `reflect judgment, divergent, synthesizer` and `architect runners` roles are gone from `models.json` and the override sheet. The Opening a PR, Babysit and Multi-phase plan playbooks are cut short.
+
+**Orchestrate is gone.** The playbook and `check-plan.mjs` are deleted. Program-scale work routes to `figure-it-out`. Autopilot-full keeps its decision trail under `~/.claude/autopilot/<slug>/`. Shipping and Autopilot-full no longer use Graphite, as upstream dropped it; Shipping lands bottom-up with `gh pr merge --squash`.
+
+**worker.md.** Every subagent kickoff starts with a pointer to `just-bleat-it/worker.md`, which carries the operator's rules into the subagent. The port adds the shared-tracker pause from 1.16.0 and the `Built with Bleat <version>` line to it.
+
+**Models.** Code, prose and judgment run on Opus 5.5 at `xhigh`; trivial edits, swarm workers, verification and panels at `high`. No role runs above `xhigh`, so `/setup-bleat` offers three budgets and turns an old `unlimited` line into `large`. Fable runs outside a panel only when the user names it or after two Opus 5.5 `xhigh` runs of the same brief fail. Fable moves from 5.1 to 5.2. `bleat-agent` defaults to `model: opus`.
+
+**Statechart** runs on native Windows and reads TLC's `\r\n` line ends, and charts enter a parent state through its border.
+
+**From pstack-claude** (reviewed to `66181d3`, 0.9.153): `just-bleat-it/references/cloud-session-pr-reads.md` lists the REST reads that work in a Claude Code cloud session, where GitHub's proxy refuses GraphQL. Babysit, Shipping and `fix-ci` point at it. Its larger `watch-pr` REST fallback and its other-runtime work did not come across.
+
+**What the merge refused.** Gemini panel seats and `-fast` model slugs, Origin forge commands, Cursor Project workers and cloud agents. The arena judge still comes from another model family, since every Bleat model is Claude.
+
+**Kept.** Every port-specific lesson from 1.6.0 through 1.16.0 sits inside the shorter principle bodies.
+
 ## 1.16.0 — ask before changing shared issues
 
 Port-specific: from a review of where Bleat clashed with Quote-Goat/quote-goat-core's own rules. Keep it on the next sync. This release was first prepared as 1.11.0 in #15; 1.12.0 through 1.15.0 merged first.
