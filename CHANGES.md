@@ -2,6 +2,16 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.15.0 — a refused write changes nothing, refusals that don't leak, and phased saves
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-16 and 2026-11-23. Keep all of these on the next sync. Stacked on 1.14.0.
+
+**`principle-enforce-where-it-is-stored`** gains "a refused write changes nothing": run every check before the first write, and keep one request's writes in one transaction. A refused role save kept the levels it had already accepted (#5070); Devin then found the same shape in its fix (#5063), in a rename that committed permissions before refusing the name (#5114), in email filing that stored the file before the access check (#5387), and in a backfill that committed half its work (#5230). The missing-field test also sends an empty body, a body that is not JSON, and a wrong-typed field: seven bugs this week answered 500 or stored a default (#5176, #5072, #5406, #5458, #5460, #5208, #5189). That test has been there since 1.12.0 and was still missed.
+
+**`principle-boundary-discipline`** gains "a refusal is a read" and a test for it. Devin flagged "can't delete, it's used by..." and uniqueness checks that named rows the caller could not open on #5281 (twice, fixed in the PR), #5126, #5296 and #5461.
+
+**`principle-model-the-domain`** gains two runs and one bullet. The refetch question becomes a run through each write path, because totals refreshed only when the autosave indicator went from saving to saved, so a direct write and an undo left them stale (#5440, #5384). Phased saves get a pair-of-edits test and a fail-then-retry test: the Cost grid sent deletes before moves while the server deleted a line's subtree, which lost a moved line (#5383) and moved resources (#5377), and a renumber re-sent every field of each moved line (#5220); Devin found retry duplicates on both fixes (#5378, #5403). "Every path" now names keyboard shortcuts, menus, paste and drag, and asks for a run as a role with only one of create, edit and delete and on a locked or archived record (#5195, #5213, #5214, #5260, #5454, #5224, #5225). That rule has been there since 1.10.0 and was missed for the third week running.
+
 ## 1.14.0 — parallel work on a one-at-a-time resource, deploy order, and a race check
 
 Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-09 and 2026-11-16. Keep all three on the next sync.
