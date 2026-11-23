@@ -23,6 +23,7 @@ Remaining triggers:
 - About to `AskUserQuestion` on a "which approach", "how should I", or "what should this do" fork → classify it before you ask. If the answer is a fact you could observe by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's to answer. Sketch it via the Prototype playbook (`playbooks/prototype.md`) and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve the question for a genuine product or preference call no experiment can settle. Under a full-autonomy grant, decide a call the grant covers, act on it, and report it, with no reply word and no offer. Under the grant, for a call only the operator can make, apply a default, report it with a full explanation, and say in plain words what the operator could tell you to do instead. The operator answers in their own words. Never give a shorthand token to type back. Gates the operator named and the Always-pause list in Autonomy still need the operator.
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - Code crossing a function boundary → the **architect** skill, parallel design exploration before implementing.
+- For Bug fix only, check the [focused-fix exception](playbooks/bug-fix.md#focused-fix-exception) before the `how`, `why`, or `architect` fan-out. All other triggers still apply.
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
@@ -58,12 +59,12 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 **Architecture**
 
 - **Model the Domain.** Writing stateful logic, code that branches a lot or repeats a shape assumption across files, or a record with more than one way in. Encode the domain in a structure (state machine, typed model, table or registry, reducer, boundary, the right collection) instead of scattered conditionals.
-- **Boundary Discipline.** Wiring validation, error handling, or framework adapters. Guards at system boundaries, trust internal types, keep business logic pure.
+- **Boundary Discipline.** Wiring validation, access checks, error handling, or framework adapters. Guards at system boundaries, access checks that refuse when they find nothing to check, trust internal types, keep business logic pure.
 - **Enforce Where It Is Stored.** More than one client writes the same data, or a client fills in a field to suit the server. The store enforces the rule for every writer.
 - **Type System Discipline.** Designing types or a signature in any typed language. Make illegal states unrepresentable, brand primitives, parse external data at boundaries.
 - **Make Operations Idempotent.** Designing commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state.
 - **Migrate Callers Then Delete Legacy APIs.** Introducing a new internal API while old callers exist. Migrate and delete in one wave.
-- **Separate Before Serializing Shared State.** Concurrent actors might write the same file, branch, key, or object. Eliminate the sharing first.
+- **Separate Before Serializing Shared State.** Concurrent actors might write the same file, branch, key, or object, or parallel work shares one transaction or deploy step. Eliminate the sharing first.
 
 **Verification**
 

@@ -6,7 +6,7 @@ bleat is its own skill library, built on two upstreams. This file records where 
 | --- | --- | --- | --- |
 | [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/pstack), `pstack/` | skill content (poteto's pstack) | `4dd1d05818d19792e7cd6e818f1667f95f7e1dbe` (2026-10-30) | 0.15.36 |
 | [`cursor/plugins`](https://github.com/cursor/plugins/tree/main/cursor-team-kit), `cursor-team-kit/skills/` | vendored team-kit skills | `e46364b8be46000b7df0f260550cd712afbb8d36` | — |
-| [`michael-denyer/pstack-claude`](https://github.com/michael-denyer/pstack-claude) | the Claude Code port bleat forked from at `c2ade4b`; a reference for translating new Cursor primitives | `49b68501b075ec1eb2755dd0d22fbf2492d67e97` (0.9.94, upstream `7b353f7`) | — |
+| [`michael-denyer/pstack-claude`](https://github.com/michael-denyer/pstack-claude) | the Claude Code port bleat forked from at `c2ade4b`; a reference for translating new Cursor primitives | `a691bd30341289b9c7eae8e5b4da28a400ea2423` (2026-11-10, 0.9.134); 1.13.0 took its Claude Code fixes from `49b6850..a691bd3` | — |
 
 The machine-readable pins live in [`tools/upstream.json`](tools/upstream.json), and `tools/sync.mjs` advances them. Keep this table in step with that file.
 

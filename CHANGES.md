@@ -2,11 +2,61 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
-## 1.11.0 — ask before changing shared issues
+## 1.16.0 — ask before changing shared issues
 
-Port-specific: from a review of where Bleat clashed with Quote-Goat/quote-goat-core's own rules. Keep it on the next sync.
+Port-specific: from a review of where Bleat clashed with Quote-Goat/quote-goat-core's own rules. Keep it on the next sync. This release was first prepared as 1.11.0 in #15; 1.12.0 through 1.15.0 merged first.
 
 The `just-bleat-it` Autonomy section no longer lists ticket updates as work that proceeds without asking. Filing, closing, or relabeling issues in a shared tracker joins the Always-pause list, because team bug counts and boards read those fields. Commenting on an issue you are working stays autonomous.
+
+## 1.15.0 — a refused write changes nothing, refusals that don't leak, and phased saves
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-16 and 2026-11-23. Keep all of these on the next sync. Stacked on 1.14.0.
+
+**`principle-enforce-where-it-is-stored`** gains "a refused write changes nothing": run every check before the first write, and keep one request's writes in one transaction. A refused role save kept the levels it had already accepted (#5070); Devin then found the same shape in its fix (#5063), in a rename that committed permissions before refusing the name (#5114), in email filing that stored the file before the access check (#5387), and in a backfill that committed half its work (#5230). The missing-field test also sends an empty body, a body that is not JSON, and a wrong-typed field: seven bugs this week answered 500 or stored a default (#5176, #5072, #5406, #5458, #5460, #5208, #5189). That test has been there since 1.12.0 and was still missed.
+
+**`principle-boundary-discipline`** gains "a refusal is a read" and a test for it. Devin flagged "can't delete, it's used by..." and uniqueness checks that named rows the caller could not open on #5281 (twice, fixed in the PR), #5126, #5296 and #5461.
+
+**`principle-model-the-domain`** gains two runs and one bullet. The refetch question becomes a run through each write path, because totals refreshed only when the autosave indicator went from saving to saved, so a direct write and an undo left them stale (#5440, #5384). Phased saves get a pair-of-edits test and a fail-then-retry test: the Cost grid sent deletes before moves while the server deleted a line's subtree, which lost a moved line (#5383) and moved resources (#5377), and a renumber re-sent every field of each moved line (#5220); Devin found retry duplicates on both fixes (#5378, #5403). "Every path" now names keyboard shortcuts, menus, paste and drag, and asks for a run as a role with only one of create, edit and delete and on a locked or archived record (#5195, #5213, #5214, #5260, #5454, #5224, #5225). That rule has been there since 1.10.0 and was missed for the third week running.
+
+## 1.14.0 — parallel work on a one-at-a-time resource, deploy order, and a race check
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-09 and 2026-11-16. Keep all three on the next sync.
+
+**`principle-separate-before-serializing-shared-state`** gains a step and a test: know which resources run one operation at a time (a transaction, a connection, a schema catalog), and test parallel code through a fake that refuses an overlapping call. Two bugs this week. Sign-up sometimes left a new user with no organization because `holdersOfRole` ran two selects with `Promise.all` on one Data API transaction (#4898, from #3589); the fix found the same shape in two sibling helpers. A backend deploy sometimes failed because two database-role resources granted on the same schema in parallel (#4899, from #4551). The description and the `just-bleat-it` index line name the new trigger.
+
+**`principle-test-against-real-shapes`** gains a bullet and a test: a migration meets the code that is still live, so drop a column only after the code that reads it has shipped, make a copy catch the old code's later writes, and never edit a migration that already ran. Devin flagged this on four merged PRs: a column dropped while `main` still inserted it (#4822), preference writes from the old API lost after a copy (#4974), a table dropped with rows the copy skipped (#4713), and an edited base-schema chunk that replays and fails on existing databases (#4792).
+
+**`principle-model-the-domain`** turns its "which writes can race" question into two runs: change a control twice before the first save answers, and fail the second of two saves. Devin flagged overlapping whole-list saves or a stale restore baseline on #4902, #4903 (twice), #4829 and #4760. The question has been there since 1.5.0 and was still missed.
+
+## 1.13.0 — fixes picked up from pstack-claude
+
+Poteto's pstack in `cursor/plugins` has not changed since 0.15.36 (`4dd1d05`, synced in 1.8.0), so this release takes the Claude Code fixes that `michael-denyer/pstack-claude` made between 0.9.95 and 0.9.134 (`49b6850..a691bd3`). Its other 100-odd commits add runtimes Bleat does not ship (Pi, Codex, Copilot, Muse, MiniMax, Antigravity, Kimi, Grok, OMP, OpenCode) or fix scripts Bleat does not carry (`worktree-audit.mjs`, `resume.mjs`, `claude-project-dir.mjs`, the model-sheet hooks). Numbered past 1.12.0; #15 holds 1.11.0.
+
+**Bug fix playbook** gains a focused-fix exception. When runtime evidence pins a bug to one subsystem, the fix keeps interfaces and state semantics, a cheap regression check exists, and nothing contradicts the cause, one delegate investigates and fixes it without the `how`, `why` and `architect` fan-out. Security, schema, migration, concurrency and routing changes never qualify. The playbook also asks for `architect` before any contract change even inside one function, an independent reviewer for code that enforces a security or data-integrity invariant, and a reply that says what the deployed runtime actually served. `just-bleat-it` names the exception among its triggers. Bleat's blast-radius step still applies.
+
+**`/no-comments`** no longer deletes a correct comment about a dependency's or platform's rule on a guess. `comment-sicko` checks such a rule in that system's docs or source, cites the page when it kills the comment, and keeps it as a `HOLD` when it cannot settle it. A rejected second report fails only that report's findings, so the accepted ones still land.
+
+**`/deslop`** diffs against the branch's base (the PR's base, else the branch it was cut from, else the default branch) instead of `main`, counts uncommitted changes, reruns the checks after editing, and reverts any edit whose check fails.
+
+**`how`**'s explainer traces the code itself when no explorers ran, where it was told explorers had done that work.
+
+**Session pickup** verifies inherited claims before it routes the remaining work. The route step ended the playbook, so the verify step after it never ran.
+
+**Transcript, skill and plugin paths** follow `CLAUDE_CONFIG_DIR`. Every skill that named `~/.claude/projects/`, `~/.claude/skills/`, `~/.claude/plugins/` or `~/.claude/shell-snapshots/` now names `${CLAUDE_CONFIG_DIR:-$HOME/.claude}/...`, and `worktree-audit.sh` reads transcripts there. `recall`, `automate-me` and session pickup describe the transcript folder name correctly: Claude Code turns every character other than a letter or digit into `-`, the leading slash included.
+
+The SessionStart hook shows "Loading bleat routing" while it runs.
+
+## 1.12.0 — access checks that fail closed, and a server that owns identity
+
+Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-02 and 2026-11-09. Keep all four on the next sync. Numbered past 1.11.0, which #15 holds.
+
+**`principle-boundary-discipline`** gains a bullet and a test: an access check that finds nothing to check refuses, and a caller's filter only narrows the allowed set. Run four requests per tenant route (another tenant's id, a sibling subsidiary in the filter, an empty id list, an ownerless row). Eight bugs this week had this shape, counting the in-app agent reaching every organization the user belongs to (#4669). `cbsLineIds=,` passed the "ids required" check and listed every subsidiary's unit costs (#4642). `GET /files?subsidiaryId=` returned a subsidiary the caller had no grant on (#4613). Ownerless file rows fell back to "file rights anywhere" (#4614). `deleteUser`, `inviteUsers` and task child routes acted on other organizations (#4610, #4611, #4612). Devin flagged the same leak three times in the new Directory API (#4518). The 1.5.0 bullet on outside references was already there and still missed (#4615). The description and the `just-bleat-it` index line name access checks.
+
+**`principle-enforce-where-it-is-stored`** gains a bullet and a test: the server makes ids, owners, billing ids, storage keys and entitlements, and refuses a body that names one; a create with a required field left out is a 400, never a 500. Bugs #4698 and #4699 (the browser made record ids), #4618 (`setupUser` took another user's `sub`), #4616 (an admin wrote paid add-on rows), #4676 (the Stripe customer id was editable), and #4353 and #4686 (a missing `date` or `id` reached the NOT NULL column as a 500).
+
+**`principle-model-the-domain`** gains two client-state questions: is every cached query keyed by organization, and which copies still hold a temporary id once the server makes the real one. Devin found cross-organization cache leaks in #4696 and #4586, and lost pins, selections and tags from a client id the server replaced in #4586, #4553 and #4627.
+
+**`principle-test-against-real-shapes`** adds more rows than one page to the shapes to seed. Devin found pickers, bells, exports and filters built from the first page in #4696, #4592, #4519 and #4553.
 
 ## 1.10.0 — one rule for every path, and tests that own their world
 
