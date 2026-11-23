@@ -2,6 +2,12 @@
 
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 1.16.0 — ask before changing shared issues
+
+Port-specific: from a review of where Bleat clashed with Quote-Goat/quote-goat-core's own rules. Keep it on the next sync. This release was first prepared as 1.11.0 in #15; 1.12.0 through 1.15.0 merged first.
+
+The `just-bleat-it` Autonomy section no longer lists ticket updates as work that proceeds without asking. Filing, closing, or relabeling issues in a shared tracker joins the Always-pause list, because team bug counts and boards read those fields. Commenting on an issue you are working stays autonomous.
+
 ## 1.15.0 — a refused write changes nothing, refusals that don't leak, and phased saves
 
 Port-specific: from bug issues and Devin reviews in Quote-Goat/quote-goat-core between 2026-11-16 and 2026-11-23. Keep all of these on the next sync. Stacked on 1.14.0.
